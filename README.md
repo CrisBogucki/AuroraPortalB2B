@@ -34,6 +34,25 @@ or
 cargo install git-cliff
 ```
 
+## Release (v0.0.1 example)
+1. Generate changelog:
+```sh
+./scripts/changelog.sh
+```
+2. Commit changelog:
+```sh
+git add CHANGELOG.md
+git commit -m "chore: update changelog"
+```
+3. Create tag:
+```sh
+git tag v0.0.1
+```
+4. Push tag (optional):
+```sh
+git push --tags
+```
+
 ## Run (local)
 Start infrastructure from `deploy/`, then run the host project:
 ```sh
