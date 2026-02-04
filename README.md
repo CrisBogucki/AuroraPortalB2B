@@ -136,6 +136,17 @@ docker compose -f deploy/docker-compose.keycloak.yml down -v
 docker compose -f deploy/docker-compose.keycloak.yml up -d
 ```
 
+If the Keycloak admin UI still shows **HTTPS required**, the master realm may enforce HTTPS.
+Disable it with:
+```sh
+docker compose -f deploy/docker-compose.keycloak.yml exec -T aurora_portal_b2b_keycloak \
+  /opt/keycloak/bin/kcadm.sh config credentials \
+  --server http://localhost:8080 --realm master --user admin --password admin
+
+docker compose -f deploy/docker-compose.keycloak.yml exec -T aurora_portal_b2b_keycloak \
+  /opt/keycloak/bin/kcadm.sh update realms/master -s sslRequired=NONE
+```
+
 Use the `access_token` from the response:
 ```sh
 curl -X GET \\
