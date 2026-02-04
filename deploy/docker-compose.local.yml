@@ -1,0 +1,52 @@
+services:
+  aurora_portal_b2b_postgres:
+    image: postgres:16
+    container_name: aurora_portal_b2b_postgres
+    hostname: aurora_portal_b2b_postgres
+    environment:
+      POSTGRES_DB: aurora_partners
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - aurora_portal_b2b_pgdata:/var/lib/postgresql/data
+      - ./partners.sql:/docker-entrypoint-initdb.d/partners.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aurora_partners"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      aurora_portal_b2b_network:
+        aliases:
+          - postgres
+
+  aurora_portal_b2b_api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.host
+    container_name: aurora_portal_b2b_api
+    hostname: aurora_portal_b2b_api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://0.0.0.0:5248
+      ConnectionStrings__partners: Host=aurora_portal_b2b_postgres;Port=5432;Database=aurora_partners;Username=postgres;Password=postgres
+    ports:
+      - "0.0.0.0:5248:5248"
+    depends_on:
+      aurora_portal_b2b_postgres:
+        condition: service_healthy
+    networks:
+      aurora_portal_b2b_network:
+        aliases:
+          - api
+
+volumes:
+  aurora_portal_b2b_pgdata:
+    name: aurora_portal_b2b_pgdata
+
+networks:
+  aurora_portal_b2b_network:
+    name: aurora_portal_b2b_network
+    driver: bridge

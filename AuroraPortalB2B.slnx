@@ -1,0 +1,45 @@
+<Solution>
+  <Folder Name="/deploy/">
+    <File Path="deploy/docker-compose.local.yml" />
+    <File Path="deploy/Dockerfile.host" />
+  </Folder>
+  <Folder Name="/docs/" />
+  <Folder Name="/scripts/">
+    <File Path="scripts\test.sh" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AuroraPortalB2B.Host/AuroraPortalB2B.Host.csproj" />
+  </Folder>
+  <Folder Name="/src/core/">
+    <Project Path="src/core/AuroraPortalB2B.Core.Mediator/AuroraPortalB2B.Core.Mediator.csproj" />
+  </Folder>
+  <Folder Name="/src/modules/" />
+  <Folder Name="/src/modules/partners/">
+    <Project Path="src/modules/partners/AuroraPortalB2B.Partners.App/AuroraPortalB2B.Partners.App.csproj" />
+    <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Domain/AuroraPortalB2B.Partners.Domain.csproj" />
+    <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Endpoints/AuroraPortalB2B.Partners.Endpoints.csproj" />
+    <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Infrastructure/AuroraPortalB2B.Partners.Infrastructure.csproj" />
+    <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Module/AuroraPortalB2B.Partners.Module.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AuroraPortalB2B.Host.Integrations/AuroraPortalB2B.Host.Integrations.csproj" />
+    <Project Path="tests/AuroraPortalB2B.Host.Tests/AuroraPortalB2B.Host.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/core/">
+    <Project Path="tests/core/AuroraPortalB2B.Core.Mediator.Integrations/AuroraPortalB2B.Core.Mediator.Integrations.csproj" />
+    <Project Path="tests/core/AuroraPortalB2B.Core.Mediator.Tests/AuroraPortalB2B.Core.Mediator.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/modules/" />
+  <Folder Name="/tests/modules/partners/">
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.App.Integrations/AuroraPortalB2B.Partners.App.Integrations.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.App.Tests/AuroraPortalB2B.Partners.App.Tests.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Domain.Integrations/AuroraPortalB2B.Partners.Domain.Integrations.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Domain.Tests/AuroraPortalB2B.Partners.Domain.Tests.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Endpoints.Integrations/AuroraPortalB2B.Partners.Endpoints.Integrations.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Endpoints.Tests/AuroraPortalB2B.Partners.Endpoints.Tests.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Infrastructure.Integrations/AuroraPortalB2B.Partners.Infrastructure.Integrations.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Infrastructure.Tests/AuroraPortalB2B.Partners.Infrastructure.Tests.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Module.Integrations/AuroraPortalB2B.Partners.Module.Integrations.csproj" />
+    <Project Path="tests/modules/partners/AuroraPortalB2B.Partners.Module.Tests/AuroraPortalB2B.Partners.Module.Tests.csproj" />
+  </Folder>
+</Solution>

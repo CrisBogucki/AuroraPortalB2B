@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <AssemblyName>AuroraPortalB2B.Core.Mediator</AssemblyName>
+        <RootNamespace>AuroraPortalB2B.Core.Mediator</RootNamespace>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Version>1.0.0</Version>
+        <Authors>bit</Authors>
+        <Description>Mediator for handle logic</Description>
+        <PackageId>AuroraPortalB2B.Core.Mediator</PackageId>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="README.md">
+        <Pack>True</Pack>
+        <PackagePath>/</PackagePath>
+      </None>
+    </ItemGroup>
+
+</Project>

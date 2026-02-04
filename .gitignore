@@ -1,0 +1,52 @@
+# Build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Rider / ReSharper / Visual Studio
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test results
+TestResults/
+test-results/
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Local tooling
+*.pdb
+*.cache
+
+# Environment
+.env
+.env.*
+
+# Coverage
+coverage/
+coverage.*
+
+# Database
+*.mdf
+*.ldf
+
+# Docker
+**/docker-compose.override.yml
