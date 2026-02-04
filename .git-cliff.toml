@@ -1,0 +1,23 @@
+[changelog]
+header = "# Changelog\n\n"
+body = "{% if version %}## {{ version }}{% else %}## Unreleased{% endif %}\n\n{% for group, commits in commits | group_by(attribute=\"group\") %}### {{ group }}\n{% for commit in commits %}- {{ commit.message | split(pat=\"\n\") | first }}\n{% endfor %}\n{% endfor %}"
+trim = true
+footer = ""
+
+[git]
+conventional_commits = true
+filter_unconventional = false
+split_commits = false
+commit_parsers = [
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Fixes" },
+  { message = "^refactor", group = "Refactors" },
+  { message = "^perf", group = "Performance" },
+  { message = "^test", group = "Tests" },
+  { message = "^docs", group = "Docs" },
+  { message = "^chore", group = "Chore" }
+]
+
+[remote]
+# Set to your repo url when ready (optional)
+# github_repo = "org/repo"

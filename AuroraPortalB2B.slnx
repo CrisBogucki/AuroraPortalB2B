@@ -6,6 +6,7 @@
   <Folder Name="/docs/" />
   <Folder Name="/scripts/">
     <File Path="scripts\test.sh" />
+    <File Path="scripts\changelog.sh" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/AuroraPortalB2B.Host/AuroraPortalB2B.Host.csproj" />

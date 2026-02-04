@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using AuroraPortalB2B.Partners.Module.ApplicationBuilder;
 using AuroraPortalB2B.Partners.Module.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +11,8 @@ public static class WebApplicationExtensions
 {
     public static WebApplication UseHostPipeline(this WebApplication app)
     {
+        app.UsePartnersModule();
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

@@ -19,6 +19,21 @@ dotnet build
 ./scripts/test.sh
 ```
 
+## Changelog
+This repo uses `git-cliff` for generating `CHANGELOG.md` from Conventional Commits.
+```sh
+./scripts/changelog.sh
+```
+
+Install `git-cliff`:
+```sh
+brew install git-cliff
+```
+or
+```sh
+cargo install git-cliff
+```
+
 ## Run (local)
 Start infrastructure from `deploy/`, then run the host project:
 ```sh
@@ -42,3 +57,5 @@ dotnet run --project src/AuroraPortalB2B.Host
 ```
 
 Swagger is available at `/swagger` when running in Development.
+
+The application applies EF Core migrations on startup for the Partners module.
