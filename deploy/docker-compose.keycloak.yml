@@ -1,0 +1,56 @@
+services:
+  aurora_portal_b2b_keycloak_db:
+    image: postgres:16
+    container_name: aurora_portal_b2b_keycloak_db
+    hostname: aurora_portal_b2b_keycloak_db
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    ports:
+      - "0.0.0.0:5433:5432"
+    volumes:
+      - aurora_portal_b2b_keycloak_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      aurora_portal_b2b_network:
+        aliases:
+          - keycloak-db
+
+  aurora_portal_b2b_keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: aurora_portal_b2b_keycloak
+    hostname: aurora_portal_b2b_keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: aurora_portal_b2b_keycloak_db
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - "0.0.0.0:8080:8080"
+    volumes:
+      - ./keycloak/realm-aurora.json:/opt/keycloak/data/import/realm-aurora.json:ro
+    depends_on:
+      aurora_portal_b2b_keycloak_db:
+        condition: service_healthy
+    networks:
+      aurora_portal_b2b_network:
+        aliases:
+          - keycloak
+
+volumes:
+  aurora_portal_b2b_keycloak_pgdata:
+    name: aurora_portal_b2b_keycloak_pgdata
+
+networks:
+  aurora_portal_b2b_network:
+    name: aurora_portal_b2b_network
+    driver: bridge

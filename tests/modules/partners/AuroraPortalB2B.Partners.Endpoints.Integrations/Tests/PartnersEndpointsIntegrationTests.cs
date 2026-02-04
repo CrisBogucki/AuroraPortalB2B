@@ -1,9 +1,11 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Asp.Versioning;
 using AuroraPortalB2B.Core.Mediator;
 using AuroraPortalB2B.Core.Mediator.Extensions;
+using AuroraPortalB2B.Partners.Endpoints.Integrations.Helper;
 using AuroraPortalB2B.Partners.App.Abstractions.Repositories;
 using AuroraPortalB2B.Partners.App.Commands;
 using AuroraPortalB2B.Partners.App.Common;
@@ -15,6 +17,8 @@ using AuroraPortalB2B.Partners.Infrastructure.Repositories;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +37,7 @@ public sealed class PartnersEndpointsIntegrationTests
         await using var app = BuildApp(dbName);
         await app.StartAsync();
         var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
 
         var request = new CreatePartnerRequest(
             "Acme",
@@ -64,6 +69,7 @@ public sealed class PartnersEndpointsIntegrationTests
         await using var app = BuildApp(dbName);
         await app.StartAsync();
         var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
 
         var partnerId = await CreatePartnerAsync(client, "Acme");
 
@@ -86,6 +92,7 @@ public sealed class PartnersEndpointsIntegrationTests
         await using var app = BuildApp(dbName);
         await app.StartAsync();
         var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
 
         var partnerId = await CreatePartnerAsync(client, "Beta");
 
@@ -112,6 +119,7 @@ public sealed class PartnersEndpointsIntegrationTests
         await using var app = BuildApp(dbName);
         await app.StartAsync();
         var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
 
         var partnerId = await CreatePartnerAsync(client, "Gamma");
 
@@ -157,6 +165,15 @@ public sealed class PartnersEndpointsIntegrationTests
         });
 
         builder.WebHost.UseTestServer();
+        builder.Services.AddAuthentication("Test")
+            .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
+        builder.Services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes("Test")
+                .RequireAuthenticatedUser()
+                .Build();
+        });
         builder.Services.AddLogging();
         builder.Services.AddProblemDetails();
         builder.Services.AddApiVersioning(options =>
@@ -192,6 +209,8 @@ public sealed class PartnersEndpointsIntegrationTests
         builder.Services.AddScoped<IValidator<CreatePartnerUserRequest>, CreatePartnerUserRequestValidator>();
 
         var app = builder.Build();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         var apiVersionSet = app.NewApiVersionSet()
             .HasApiVersion(new ApiVersion(1, 0))

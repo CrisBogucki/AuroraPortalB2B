@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:8080
+@realm = aurora
+@clientId = aurora-b2b
+@username = test-user
+@password = test-password
+
+### Get access token (password grant)
+# @name tokenRequest
+POST {{baseUrl}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{clientId}}&grant_type=password&username={{username}}&password={{password}}
+
+> {%
+  client.global.set("kcAccessToken", response.body.access_token);
+%}
+
+### Call API with token
+GET http://localhost:5248/api/v1/partners
+Authorization: Bearer {{kcAccessToken}}
+Accept: application/json

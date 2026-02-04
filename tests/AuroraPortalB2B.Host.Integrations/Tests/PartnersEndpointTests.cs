@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using AuroraPortalB2B.Host.Integrations.Helper;
 using FluentAssertions;
@@ -12,6 +13,8 @@ public sealed class PartnersEndpointTests(TestHostFactory factory) : IClassFixtu
     [Fact]
     public async Task GetPartners_ShouldReturnOk()
     {
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+
         var response = await _client.GetAsync("/api/v1/partners");
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);

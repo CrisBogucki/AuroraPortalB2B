@@ -2,8 +2,6 @@ using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using AuroraPortalB2B.Partners.Module.ApplicationBuilder;
 using AuroraPortalB2B.Partners.Module.Endpoints;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 
 namespace AuroraPortalB2B.Host.Configuration;
 
@@ -29,6 +27,8 @@ public static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         return app;
     }
@@ -41,7 +41,8 @@ public static class WebApplicationExtensions
             .Build();
 
         var api = app.MapGroup("/api/v{version:apiVersion}")
-            .WithApiVersionSet(apiVersionSet);
+            .WithApiVersionSet(apiVersionSet)
+            .RequireAuthorization();
 
         api.MapPartnersModule();
 

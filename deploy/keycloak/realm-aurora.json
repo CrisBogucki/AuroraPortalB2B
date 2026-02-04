@@ -1,0 +1,40 @@
+{
+  "realm": "aurora",
+  "enabled": true,
+  "sslRequired": "NONE",
+  "loginWithEmailAllowed": true,
+  "verifyEmail": false,
+  "resetPasswordAllowed": false,
+  "clients": [
+    {
+      "clientId": "aurora-b2b",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://localhost:5248/*",
+        "http://localhost:5248/swagger/*",
+        "http://localhost:5248/swagger/index.html"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "test-user",
+      "firstName": "Test",
+      "lastName": "User",
+      "enabled": true,
+      "email": "test-user@example.com",
+      "emailVerified": true,
+      "requiredActions": [],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test-password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}

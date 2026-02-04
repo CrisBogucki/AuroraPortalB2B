@@ -2,8 +2,19 @@
   <Folder Name="/deploy/">
     <File Path="deploy/docker-compose.local.yml" />
     <File Path="deploy/Dockerfile.host" />
+    <File Path="deploy\partners.sql" />
+    <File Path="deploy\docker-compose.keycloak.yml" />
   </Folder>
-  <Folder Name="/docs/" />
+  <Folder Name="/deploy/keycloak/">
+    <File Path="deploy\keycloak\realm-aurora.json" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs\tests.md" />
+  </Folder>
+  <Folder Name="/requests/">
+    <File Path="requests\\keycloak-token.http" />
+    <File Path="requests\\keycloak-admin-reset.http" />
+  </Folder>
   <Folder Name="/scripts/">
     <File Path="scripts\test.sh" />
     <File Path="scripts\changelog.sh" />

@@ -1,4 +1,6 @@
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,17 @@ public sealed class TestHostFactory : WebApplicationFactory<Program>
         builder.UseEnvironment("Development");
         builder.ConfigureServices(services =>
         {
+            services.AddAuthentication("Test")
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes("Test")
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+
             var descriptors = services
                 .Where(d => d.ServiceType == typeof(DbContextOptions<PartnersDbContext>))
                 .ToList();

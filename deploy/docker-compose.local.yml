@@ -32,6 +32,12 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://0.0.0.0:5248
       ConnectionStrings__partners: Host=aurora_portal_b2b_postgres;Port=5432;Database=aurora_partners;Username=postgres;Password=postgres
+      Keycloak__Authority: http://localhost:8080/realms/aurora
+      Keycloak__MetadataAddress: http://aurora_portal_b2b_keycloak:8080/realms/aurora/.well-known/openid-configuration
+      Keycloak__Audience: aurora-b2b
+      Keycloak__RequireHttpsMetadata: "false"
+      Keycloak__ValidIssuers__0: http://localhost:8080/realms/aurora
+      Keycloak__ValidIssuers__1: http://aurora_portal_b2b_keycloak:8080/realms/aurora
     ports:
       - "0.0.0.0:5248:5248"
     depends_on:
