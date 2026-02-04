@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Chore
+- update changelog
+- update readme
+
 ## v0.0.1
 
 ### Chore
