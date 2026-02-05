@@ -17,7 +17,7 @@ public sealed class CreatePartnerUserCommandHandlerTests
         var partnerRepo = new Mock<IPartnerRepository>();
         var userRepo = new Mock<IPartnerUserRepository>();
         var uow = new Mock<IUnitOfWork>();
-        partnerRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        partnerRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Partner?)null);
 
         var handler = new CreatePartnerUserCommandHandler(partnerRepo.Object, userRepo.Object, uow.Object);
@@ -43,7 +43,7 @@ public sealed class CreatePartnerUserCommandHandlerTests
         var uow = new Mock<IUnitOfWork>();
         var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
 
-        partnerRepo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<CancellationToken>()))
+        partnerRepo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(partner);
 
         var handler = new CreatePartnerUserCommandHandler(partnerRepo.Object, userRepo.Object, uow.Object);

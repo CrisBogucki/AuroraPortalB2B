@@ -10,7 +10,7 @@ public sealed class GetPartnerByIdQueryHandler(IPartnerRepository partnerReposit
 {
     public async Task<Result<Partner>> Handle(GetPartnerByIdQuery query, CancellationToken cancellationToken)
     {
-        var partner = await partnerRepository.GetByIdAsync(query.Id, cancellationToken);
+        var partner = await partnerRepository.GetByIdAsync(query.Id, query.IncludeInactive, cancellationToken);
         return partner is null
             ? Result<Partner>.Fail("partners.not_found", "Partner not found.")
             : Result<Partner>.Success(partner);

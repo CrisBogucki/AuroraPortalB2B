@@ -15,7 +15,7 @@ public sealed class ListPartnerUsersQueryHandlerTests
         var repo = new Mock<IPartnerUserRepository>();
         // ReSharper disable once CollectionNeverUpdated.Local
         var users = new List<PartnerUser>();
-        repo.Setup(r => r.ListByPartnerIdAsync(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        repo.Setup(r => r.ListByPartnerIdAsync(It.IsAny<Guid>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(users);
 
         var handler = new ListPartnerUsersQueryHandler(repo.Object);

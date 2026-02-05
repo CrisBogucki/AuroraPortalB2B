@@ -14,6 +14,8 @@
   <Folder Name="/requests/">
     <File Path="requests/keycloak-token.http" />
     <File Path="requests/keycloak-admin-reset.http" />
+    <File Path="requests\partners\partners.http" />
+    <File Path="requests\access-control\access-control.http" />
   </Folder>
   <Folder Name="/scripts/">
     <File Path="scripts/test.sh" />

@@ -36,6 +36,8 @@ public static class PartnersModuleServiceCollectionExtensions
 
         services.AddScoped<IValidator<CreatePartnerRequest>, CreatePartnerRequestValidator>();
         services.AddScoped<IValidator<CreatePartnerUserRequest>, CreatePartnerUserRequestValidator>();
+        services.AddScoped<IValidator<UpdatePartnerRequest>, UpdatePartnerRequestValidator>();
+        services.AddScoped<IValidator<UpdatePartnerUserRequest>, UpdatePartnerUserRequestValidator>();
 
         return services;
     }

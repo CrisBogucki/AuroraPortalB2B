@@ -26,7 +26,7 @@ public sealed class PartnerUserRepositoryTests
         await dbContext.SaveChangesAsync();
 
         // act
-        var result = await repo.ListByPartnerIdAsync(partnerId, 10, 0, CancellationToken.None);
+        var result = await repo.ListByPartnerIdAsync(partnerId, 10, 0, includeInactive: true, cancellationToken: CancellationToken.None);
 
         // assert
         result.Should().HaveCount(2);

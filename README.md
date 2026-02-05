@@ -85,6 +85,8 @@ dotnet run --project src/AuroraPortalB2B.Host
 
 Swagger is available at `/swagger` when running in Development.
 
+Soft delete: `DELETE` endpoints do not remove records; they set status to `Inactive`.
+
 The application applies EF Core migrations on startup for the Partners module.
 
 ## Migrations (EF Core)

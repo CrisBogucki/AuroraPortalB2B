@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:5248
+@apiVersion = v1
+@token = {{kcAccessToken}}
+
+# Placeholder requests for the AccessControl module.
+# Endpoints will be added when the module API is implemented.
+# Example (future):
+# GET {{baseUrl}}/api/{{apiVersion}}/access-control/permissions
+# Authorization: Bearer {{token}}
+# Accept: application/json

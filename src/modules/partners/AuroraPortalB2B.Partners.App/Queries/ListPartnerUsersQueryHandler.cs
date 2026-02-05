@@ -10,7 +10,7 @@ public sealed class ListPartnerUsersQueryHandler(IPartnerUserRepository partnerU
 {
     public async Task<Result<IReadOnlyList<PartnerUser>>> Handle(ListPartnerUsersQuery query, CancellationToken cancellationToken)
     {
-        var users = await partnerUserRepository.ListByPartnerIdAsync(query.PartnerId, query.Limit, query.Offset, cancellationToken);
+        var users = await partnerUserRepository.ListByPartnerIdAsync(query.PartnerId, query.Limit, query.Offset, query.IncludeInactive, cancellationToken);
         return Result<IReadOnlyList<PartnerUser>>.Success(users);
     }
 }

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -141,6 +142,167 @@ public sealed class PartnersEndpointsIntegrationTests
         doc.RootElement.GetProperty("total").GetInt32().Should().Be(1);
     }
 
+    [Fact]
+    public async Task DeactivatePartner_ShouldReturnNoContentAndSetStatus()
+    {
+        // arrange
+        var dbName = nameof(DeactivatePartner_ShouldReturnNoContentAndSetStatus);
+        await using var app = BuildApp(dbName);
+        await app.StartAsync();
+        var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+
+        var partnerId = await CreatePartnerAsync(client, "Delta");
+        var userRequest = new CreatePartnerUserRequest(
+            "user@acme.com",
+            "Jan",
+            "Nowak");
+        var createUserResponse = await client.PostAsJsonAsync($"/api/v1/partners/{partnerId}/users", userRequest);
+        createUserResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var createdUser = await createUserResponse.Content.ReadFromJsonAsync<CreatePartnerUserResponse>();
+        createdUser.Should().NotBeNull();
+        var userId = createdUser!.Id;
+
+        // act
+        var deactivateResponse = await client.DeleteAsync($"/api/v1/partners/{partnerId}");
+        var getResponse = await client.GetAsync($"/api/v1/partners/{partnerId}?includeInactive=true");
+        var listUsersResponse = await client.GetAsync($"/api/v1/partners/{partnerId}/users?includeInactive=true");
+
+        // assert
+        deactivateResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var dto = await getResponse.Content.ReadFromJsonAsync<PartnerDetailsDto>();
+        dto.Should().NotBeNull();
+        dto!.Status.Should().Be("Inactive");
+
+        listUsersResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        await using var stream = await listUsersResponse.Content.ReadAsStreamAsync();
+        using var doc = await JsonDocument.ParseAsync(stream);
+        var status = doc.RootElement.GetProperty("items")
+            .EnumerateArray()
+            .First(item => item.GetProperty("id").GetGuid() == userId)
+            .GetProperty("status")
+            .GetString();
+        status.Should().Be("Inactive");
+    }
+
+    [Fact]
+    public async Task DeactivatePartnerUser_ShouldReturnNoContentAndSetStatus()
+    {
+        // arrange
+        var dbName = nameof(DeactivatePartnerUser_ShouldReturnNoContentAndSetStatus);
+        await using var app = BuildApp(dbName);
+        await app.StartAsync();
+        var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+
+        var partnerId = await CreatePartnerAsync(client, "Epsilon");
+
+        var request = new CreatePartnerUserRequest(
+            "user@acme.com",
+            "Jan",
+            "Nowak");
+
+        var createUserResponse = await client.PostAsJsonAsync($"/api/v1/partners/{partnerId}/users", request);
+        createUserResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var createdUser = await createUserResponse.Content.ReadFromJsonAsync<CreatePartnerUserResponse>();
+        createdUser.Should().NotBeNull();
+        var userId = createdUser!.Id;
+
+        // act
+        var deactivateResponse = await client.DeleteAsync($"/api/v1/partners/{partnerId}/users/{userId}");
+        var listResponse = await client.GetAsync($"/api/v1/partners/{partnerId}/users?includeInactive=true");
+
+        // assert
+        deactivateResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        await using var stream = await listResponse.Content.ReadAsStreamAsync();
+        using var doc = await JsonDocument.ParseAsync(stream);
+        var status = doc.RootElement.GetProperty("items")
+            .EnumerateArray()
+            .First(item => item.GetProperty("id").GetGuid() == userId)
+            .GetProperty("status")
+            .GetString();
+        status.Should().Be("Inactive");
+    }
+
+    [Fact]
+    public async Task UpdatePartner_ShouldReturnNoContentAndUpdateDetails()
+    {
+        // arrange
+        var dbName = nameof(UpdatePartner_ShouldReturnNoContentAndUpdateDetails);
+        await using var app = BuildApp(dbName);
+        await app.StartAsync();
+        var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+
+        var partnerId = await CreatePartnerAsync(client, "Zeta");
+
+        var updateRequest = new UpdatePartnerRequest(
+            "Zeta Updated",
+            "1234563218",
+            "852163975",
+            new AddressDto("PL", "Warsaw", "Main 2", "00-001"));
+
+        // act
+        var updateResponse = await client.PutAsJsonAsync($"/api/v1/partners/{partnerId}", updateRequest);
+        var getResponse = await client.GetAsync($"/api/v1/partners/{partnerId}");
+
+        // assert
+        updateResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var dto = await getResponse.Content.ReadFromJsonAsync<PartnerDetailsDto>();
+        dto.Should().NotBeNull();
+        dto!.Name.Should().Be("Zeta Updated");
+        dto.Address.Should().NotBeNull();
+        dto.Address!.City.Should().Be("Warsaw");
+    }
+
+    [Fact]
+    public async Task UpdatePartnerUser_ShouldReturnNoContentAndUpdateDetails()
+    {
+        // arrange
+        var dbName = nameof(UpdatePartnerUser_ShouldReturnNoContentAndUpdateDetails);
+        await using var app = BuildApp(dbName);
+        await app.StartAsync();
+        var client = app.GetTestClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+
+        var partnerId = await CreatePartnerAsync(client, "Eta");
+
+        var createUserRequest = new CreatePartnerUserRequest(
+            "user@acme.com",
+            "Jan",
+            "Nowak");
+
+        var createUserResponse = await client.PostAsJsonAsync($"/api/v1/partners/{partnerId}/users", createUserRequest);
+        createUserResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var createdUser = await createUserResponse.Content.ReadFromJsonAsync<CreatePartnerUserResponse>();
+        createdUser.Should().NotBeNull();
+        var userId = createdUser!.Id;
+
+        var updateUserRequest = new UpdatePartnerUserRequest(
+            "new@acme.com",
+            "Anna",
+            "Kowalska");
+
+        // act
+        var updateResponse = await client.PutAsJsonAsync($"/api/v1/partners/{partnerId}/users/{userId}", updateUserRequest);
+        var listResponse = await client.GetAsync($"/api/v1/partners/{partnerId}/users");
+
+        // assert
+        updateResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        listResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        await using var stream = await listResponse.Content.ReadAsStreamAsync();
+        using var doc = await JsonDocument.ParseAsync(stream);
+        var userElement = doc.RootElement.GetProperty("items")
+            .EnumerateArray()
+            .First(item => item.GetProperty("id").GetGuid() == userId);
+        userElement.GetProperty("email").GetString().Should().Be("new@acme.com");
+        userElement.GetProperty("firstName").GetString().Should().Be("Anna");
+        userElement.GetProperty("lastName").GetString().Should().Be("Kowalska");
+    }
+
     private static async Task<Guid> CreatePartnerAsync(HttpClient client, string name)
     {
         var request = new CreatePartnerRequest(
@@ -205,6 +367,8 @@ public sealed class PartnersEndpointsIntegrationTests
 
         builder.Services.AddScoped<IValidator<CreatePartnerRequest>, CreatePartnerRequestValidator>();
         builder.Services.AddScoped<IValidator<CreatePartnerUserRequest>, CreatePartnerUserRequestValidator>();
+        builder.Services.AddScoped<IValidator<UpdatePartnerRequest>, UpdatePartnerRequestValidator>();
+        builder.Services.AddScoped<IValidator<UpdatePartnerUserRequest>, UpdatePartnerUserRequestValidator>();
 
         var app = builder.Build();
         app.UseAuthentication();

@@ -14,7 +14,7 @@ public sealed class CreatePartnerUserCommandHandler(
 {
     public async Task<Result<Guid>> Handle(CreatePartnerUserCommand command, CancellationToken cancellationToken)
     {
-        var partner = await partnerRepository.GetByIdAsync(command.PartnerId, cancellationToken);
+        var partner = await partnerRepository.GetByIdAsync(command.PartnerId, cancellationToken: cancellationToken);
         if (partner is null)
         {
             return Result<Guid>.Fail("partners.not_found", "Partner not found.");

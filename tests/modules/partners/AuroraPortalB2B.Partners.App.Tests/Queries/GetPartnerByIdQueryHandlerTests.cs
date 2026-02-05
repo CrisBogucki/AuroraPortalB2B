@@ -15,7 +15,7 @@ public sealed class GetPartnerByIdQueryHandlerTests
     {
         // arrange
         var repo = new Mock<IPartnerRepository>();
-        repo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        repo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Partner?)null);
 
         var handler = new GetPartnerByIdQueryHandler(repo.Object);
@@ -34,7 +34,7 @@ public sealed class GetPartnerByIdQueryHandlerTests
         // arrange
         var repo = new Mock<IPartnerRepository>();
         var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
-        repo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<CancellationToken>()))
+        repo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(partner);
 
         var handler = new GetPartnerByIdQueryHandler(repo.Object);

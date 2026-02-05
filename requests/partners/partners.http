@@ -1,0 +1,105 @@
+@baseUrl = http://localhost:5248
+@apiVersion = v1
+@token = {{kcAccessToken}}
+
+### List partners
+GET {{baseUrl}}/api/{{apiVersion}}/partners
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### List partners (include inactive)
+GET {{baseUrl}}/api/{{apiVersion}}/partners?includeInactive=true
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Create partner (sample)
+POST {{baseUrl}}/api/{{apiVersion}}/partners
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Acme Sp. z o.o.",
+  "nip": "1234563218",
+  "regon": "852163975",
+  "address": {
+    "countryCode": "PL",
+    "city": "Krakow",
+    "street": "Main 1",
+    "postalCode": "30-001"
+  }
+}
+
+### Get partner by id
+@partnerId = eba3c5ad-db3c-40ce-bc5a-37bd33e45bad
+GET {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Get partner by id (include inactive)
+GET {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}?includeInactive=true
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Update partner
+PUT {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Acme Updated",
+  "nip": "1234563218",
+  "regon": "852163975",
+  "address": {
+    "countryCode": "PL",
+    "city": "Warsaw",
+    "street": "Main 2",
+    "postalCode": "00-001"
+  }
+}
+
+### Deactivate partner (soft delete)
+DELETE {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Create partner user (sample)
+POST {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}/users
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@acme.com",
+  "firstName": "Jan",
+  "lastName": "Nowak"
+}
+
+### List partner users
+GET {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}/users
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### List partner users (include inactive)
+GET {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}/users?includeInactive=true
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Update partner user
+@userId = 00000000-0000-0000-0000-000000000000
+PUT {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}/users/{{userId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "new@acme.com",
+  "firstName": "Anna",
+  "lastName": "Kowalska"
+}
+
+### Deactivate partner user (soft delete)
+DELETE {{baseUrl}}/api/{{apiVersion}}/partners/{{partnerId}}/users/{{userId}}
+Authorization: Bearer {{token}}
+Accept: application/json

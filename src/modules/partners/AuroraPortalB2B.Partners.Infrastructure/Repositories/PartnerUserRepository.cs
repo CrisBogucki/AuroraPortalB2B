@@ -8,16 +8,18 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Repositories;
 
 public sealed class PartnerUserRepository(PartnersDbContext dbContext) : IPartnerUserRepository
 {
-    public Task<PartnerUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public Task<PartnerUser?> GetByIdAsync(Guid id, bool includeInactive = false, CancellationToken cancellationToken = default)
         => dbContext.PartnerUsers
+            .Where(user => includeInactive || user.Status == PartnerUserStatus.Active)
             .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
 
     public Task<PartnerUser?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
         => dbContext.PartnerUsers
             .FirstOrDefaultAsync(user => user.Email.Value == email.Value, cancellationToken);
 
-    public async Task<IReadOnlyList<PartnerUser>> ListByPartnerIdAsync(Guid partnerId, int limit, int offset, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<PartnerUser>> ListByPartnerIdAsync(Guid partnerId, int limit, int offset, bool includeInactive = false, CancellationToken cancellationToken = default)
         => await dbContext.PartnerUsers
+            .Where(user => includeInactive || user.Status == PartnerUserStatus.Active)
             .Where(user => user.PartnerId == partnerId)
             .OrderBy(user => user.LastName)
             .ThenBy(user => user.FirstName)

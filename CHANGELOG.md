@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Chore
+- update changelog
+- update readme
+
+### Features
+- add access-control skeleton and refine partners owned types
+
+### Fixes
+- align jwt issuer validation
+
 ## v0.0.2
 
 ### Chore

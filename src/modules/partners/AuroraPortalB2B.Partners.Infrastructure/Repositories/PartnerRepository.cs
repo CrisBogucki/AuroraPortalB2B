@@ -8,8 +8,9 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Repositories;
 
 public sealed class PartnerRepository(PartnersDbContext dbContext) : IPartnerRepository
 {
-    public Task<Partner?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public Task<Partner?> GetByIdAsync(Guid id, bool includeInactive = false, CancellationToken cancellationToken = default)
         => dbContext.Partners
+            .Where(partner => includeInactive || partner.Status == PartnerStatus.Active)
             .FirstOrDefaultAsync(partner => partner.Id == id, cancellationToken);
 
     public Task<Partner?> GetByNipAsync(Nip nip, CancellationToken cancellationToken = default)
@@ -20,8 +21,9 @@ public sealed class PartnerRepository(PartnersDbContext dbContext) : IPartnerRep
         => dbContext.Partners
             .AnyAsync(partner => partner.Nip.Value == nip.Value, cancellationToken);
 
-    public async Task<IReadOnlyList<Partner>> ListAsync(int limit, int offset, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Partner>> ListAsync(int limit, int offset, bool includeInactive = false, CancellationToken cancellationToken = default)
         => await dbContext.Partners
+            .Where(partner => includeInactive || partner.Status == PartnerStatus.Active)
             .OrderBy(partner => partner.Name)
             .Skip(Math.Max(0, offset))
             .Take(Math.Clamp(limit, 1, 200))

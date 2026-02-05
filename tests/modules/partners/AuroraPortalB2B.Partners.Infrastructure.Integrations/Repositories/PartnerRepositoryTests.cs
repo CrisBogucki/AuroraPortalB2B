@@ -22,7 +22,7 @@ public sealed class PartnerRepositoryTests
         await dbContext.SaveChangesAsync();
 
         // act
-        var result = await repo.ListAsync(2, 0, CancellationToken.None);
+        var result = await repo.ListAsync(2, 0, includeInactive: true, cancellationToken: CancellationToken.None);
 
         // assert
         result.Should().HaveCount(2);
