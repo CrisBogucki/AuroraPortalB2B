@@ -6,7 +6,9 @@ using AuroraPortalB2B.Partners.Domain.ValueObjects;
 
 namespace AuroraPortalB2B.Partners.App.Commands;
 
-public sealed class CreatePartnerCommandHandler(IPartnerRepository partnerRepository, IUnitOfWork unitOfWork)
+public sealed class CreatePartnerCommandHandler(
+    IPartnerRepository partnerRepository,
+    IUnitOfWork unitOfWork)
     : IRequestHandler<CreatePartnerCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreatePartnerCommand command, CancellationToken cancellationToken)

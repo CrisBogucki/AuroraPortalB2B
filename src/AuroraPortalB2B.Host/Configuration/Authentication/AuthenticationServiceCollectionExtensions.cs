@@ -11,7 +11,9 @@ public static class AuthenticationServiceCollectionExtensions
         var keycloakSection = configuration.GetSection("Keycloak");
         var authority = keycloakSection["Authority"];
         var metadataAddress = keycloakSection["MetadataAddress"];
+        var audience = keycloakSection["Audience"];
         var requireHttpsMetadata = keycloakSection.GetValue("RequireHttpsMetadata", true);
+        var validIssuers = keycloakSection.GetSection("ValidIssuers").Get<string[]>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -31,6 +33,45 @@ public static class AuthenticationServiceCollectionExtensions
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(audience))
+                        {
+                            var azp = context.Principal?.FindFirst("azp")?.Value;
+                            if (!string.Equals(azp, audience, StringComparison.OrdinalIgnoreCase))
+                            {
+                                context.Fail("Invalid token 'azp' (authorized party).");
+                            }
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+
+                if (validIssuers is { Length: > 0 })
+                {
+                    var normalizedAllowed = validIssuers
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .Select(x => x.TrimEnd('/'))
+                        .ToArray();
+
+                    if (normalizedAllowed.Length > 0)
+                    {
+                        options.TokenValidationParameters.IssuerValidator = (issuer, _, _) =>
+                        {
+                            var normalizedIssuer = issuer.TrimEnd('/');
+                            if (normalizedAllowed.Contains(normalizedIssuer, StringComparer.OrdinalIgnoreCase))
+                            {
+                                return issuer;
+                            }
+
+                            throw new SecurityTokenInvalidIssuerException($"The issuer '{issuer}' is invalid");
+                        };
+                    }
+                }
                 
             });
 

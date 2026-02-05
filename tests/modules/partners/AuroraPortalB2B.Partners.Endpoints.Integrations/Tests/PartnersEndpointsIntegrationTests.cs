@@ -167,13 +167,11 @@ public sealed class PartnersEndpointsIntegrationTests
         builder.WebHost.UseTestServer();
         builder.Services.AddAuthentication("Test")
             .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
-        builder.Services.AddAuthorization(options =>
-        {
-            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        builder.Services.AddAuthorizationBuilder()
+            .SetFallbackPolicy(new AuthorizationPolicyBuilder()
                 .AddAuthenticationSchemes("Test")
                 .RequireAuthenticatedUser()
-                .Build();
-        });
+                .Build());
         builder.Services.AddLogging();
         builder.Services.AddProblemDetails();
         builder.Services.AddApiVersioning(options =>

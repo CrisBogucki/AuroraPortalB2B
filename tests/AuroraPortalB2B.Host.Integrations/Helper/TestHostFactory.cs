@@ -55,6 +55,7 @@ public sealed class TestHostFactory : WebApplicationFactory<Program>
             services.AddDbContext<PartnersDbContext>(options =>
                 options.UseInMemoryDatabase("partners_test")
                     .UseInternalServiceProvider(inMemoryProvider));
+
         });
     }
 }
