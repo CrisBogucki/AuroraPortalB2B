@@ -20,6 +20,12 @@ public sealed class CreatePartnerRequestValidator : AbstractValidator<CreatePart
             .Must(value => string.IsNullOrWhiteSpace(value) || value!.Length is 9 or 14)
             .WithMessage("REGON must be 9 or 14 digits.");
 
+        RuleFor(request => request.Phone)
+            .MaximumLength(30);
+
+        RuleFor(request => request.Notes)
+            .MaximumLength(1000);
+
         When(request => request.Address is not null, () =>
         {
             RuleFor(request => request.Address!.CountryCode)

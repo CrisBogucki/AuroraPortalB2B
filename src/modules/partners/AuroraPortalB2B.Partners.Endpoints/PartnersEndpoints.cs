@@ -149,7 +149,9 @@ public static class PartnersEndpoints
             partner.Name,
             partner.Nip.Value,
             partner.Regon?.Value,
-            partner.Status.ToString()));
+            partner.Status.ToString(),
+            partner.Phone,
+            partner.Notes));
 
         var partnerListItemDtos = response as PartnerListItemDto[] ?? response.ToArray();
         return Results.Ok(new { items = partnerListItemDtos, total = partnerListItemDtos.Count() });
@@ -179,7 +181,9 @@ public static class PartnersEndpoints
                     result.Value.Address.CountryCode,
                     result.Value.Address.City,
                     result.Value.Address.Street,
-                    result.Value.Address.PostalCode));
+                    result.Value.Address.PostalCode),
+            result.Value.Phone,
+            result.Value.Notes);
 
         return Results.Ok(dto);
     }
@@ -203,7 +207,9 @@ public static class PartnersEndpoints
             request.Address?.CountryCode,
             request.Address?.City,
             request.Address?.Street,
-            request.Address?.PostalCode), ct);
+            request.Address?.PostalCode,
+            request.Phone,
+            request.Notes), ct);
 
         if (result.IsFailure)
         {
@@ -230,7 +236,9 @@ public static class PartnersEndpoints
             id,
             request.Email,
             request.FirstName,
-            request.LastName), ct);
+            request.LastName,
+            request.Phone,
+            request.Notes), ct);
 
         if (result.IsFailure)
         {
@@ -261,7 +269,9 @@ public static class PartnersEndpoints
             request.Address?.CountryCode,
             request.Address?.City,
             request.Address?.Street,
-            request.Address?.PostalCode), ct);
+            request.Address?.PostalCode,
+            request.Phone,
+            request.Notes), ct);
 
         if (result.IsFailure)
         {
@@ -293,7 +303,9 @@ public static class PartnersEndpoints
             userId,
             request.Email,
             request.FirstName,
-            request.LastName), ct);
+            request.LastName,
+            request.Phone,
+            request.Notes), ct);
 
         if (result.IsFailure)
         {
@@ -362,7 +374,9 @@ public static class PartnersEndpoints
             user.Email.Value,
             user.FirstName,
             user.LastName,
-            user.Status.ToString()));
+            user.Status.ToString(),
+            user.Phone,
+            user.Notes));
 
         var partnerUserDtos = response as PartnerUserDto[] ?? response.ToArray();
         return Results.Ok(new { items = partnerUserDtos, total = partnerUserDtos.Length });

@@ -6,4 +6,6 @@ public sealed record PartnerDetailsDto(
     string Nip,
     string? Regon,
     string Status,
-    AddressDto? Address);
+    AddressDto? Address,
+    string? Phone,
+    string? Notes);

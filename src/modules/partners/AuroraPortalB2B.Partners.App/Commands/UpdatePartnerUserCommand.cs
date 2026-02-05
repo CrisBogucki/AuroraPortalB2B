@@ -8,5 +8,7 @@ public sealed record UpdatePartnerUserCommand(
     Guid UserId,
     string Email,
     string FirstName,
-    string LastName)
+    string LastName,
+    string? Phone = null,
+    string? Notes = null)
     : IRequest<Result>;

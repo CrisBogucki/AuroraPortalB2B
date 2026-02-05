@@ -33,7 +33,7 @@ public sealed class CreatePartnerUserCommandHandler(
         PartnerUser user;
         try
         {
-            user = partner.AddUser(Guid.NewGuid(), email, command.FirstName, command.LastName);
+            user = partner.AddUser(Guid.NewGuid(), email, command.FirstName, command.LastName, command.Phone, command.Notes);
         }
         catch (ArgumentException ex)
         {

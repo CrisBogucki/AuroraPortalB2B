@@ -6,4 +6,6 @@ public sealed record PartnerUserDto(
     string Email,
     string FirstName,
     string LastName,
-    string Status);
+    string Status,
+    string? Phone,
+    string? Notes);

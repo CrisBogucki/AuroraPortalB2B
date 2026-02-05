@@ -11,7 +11,7 @@ public sealed class PartnerUser
         LastName = string.Empty;
     }
 
-    public PartnerUser(Guid id, Guid partnerId, Email email, string firstName, string lastName)
+    public PartnerUser(Guid id, Guid partnerId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
         if (partnerId == Guid.Empty)
         {
@@ -27,6 +27,8 @@ public sealed class PartnerUser
         LastName = string.IsNullOrWhiteSpace(lastName)
             ? throw new ArgumentException("Last name is required.", nameof(lastName))
             : lastName.Trim();
+        Phone = Normalize(phone);
+        Notes = Normalize(notes);
         Status = PartnerUserStatus.Active;
         CreatedAtUtc = DateTimeOffset.UtcNow;
     }
@@ -36,6 +38,8 @@ public sealed class PartnerUser
     public Email Email { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
+    public string? Phone { get; private set; }
+    public string? Notes { get; private set; }
     public PartnerUserStatus Status { get; private set; }
     public DateTimeOffset CreatedAtUtc { get; private set; }
 
@@ -57,5 +61,12 @@ public sealed class PartnerUser
         LastName = lastName.Trim();
     }
 
+    public void ChangePhone(string? phone) => Phone = Normalize(phone);
+
+    public void ChangeNotes(string? notes) => Notes = Normalize(notes);
+
     public void Deactivate() => Status = PartnerUserStatus.Inactive;
+
+    private static string? Normalize(string? value)
+        => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 }

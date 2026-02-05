@@ -19,5 +19,11 @@ public sealed class UpdatePartnerUserRequestValidator : AbstractValidator<Update
         RuleFor(request => request.LastName)
             .NotEmpty()
             .MaximumLength(100);
+
+        RuleFor(request => request.Phone)
+            .MaximumLength(30);
+
+        RuleFor(request => request.Notes)
+            .MaximumLength(1000);
     }
 }

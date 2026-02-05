@@ -7,4 +7,6 @@ public sealed record CreatePartnerUserCommand(
     Guid PartnerId,
     string Email,
     string FirstName,
-    string LastName) : IRequest<Result<Guid>>;
+    string LastName,
+    string? Phone = null,
+    string? Notes = null) : IRequest<Result<Guid>>;

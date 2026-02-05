@@ -32,6 +32,8 @@ public sealed class UpdatePartnerUserCommandHandler(
         {
             user.ChangeEmail(email);
             user.Rename(command.FirstName, command.LastName);
+            user.ChangePhone(command.Phone);
+            user.ChangeNotes(command.Notes);
         }
         catch (ArgumentException ex)
         {

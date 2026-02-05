@@ -12,7 +12,7 @@ public sealed class Partner
         Nip = null!;
     }
 
-    public Partner(Guid id, string name, Nip nip, Regon? regon = null, Address? address = null)
+    public Partner(Guid id, string name, Nip nip, Regon? regon = null, Address? address = null, string? phone = null, string? notes = null)
     {
         Id = id == Guid.Empty ? Guid.NewGuid() : id;
         Name = string.IsNullOrWhiteSpace(name)
@@ -21,6 +21,8 @@ public sealed class Partner
         Nip = nip ?? throw new ArgumentNullException(nameof(nip));
         Regon = regon;
         Address = address;
+        Phone = Normalize(phone);
+        Notes = Normalize(notes);
         Status = PartnerStatus.Active;
         CreatedAtUtc = DateTimeOffset.UtcNow;
     }
@@ -30,6 +32,8 @@ public sealed class Partner
     public Nip Nip { get; private set; }
     public Regon? Regon { get; private set; }
     public Address? Address { get; private set; }
+    public string? Phone { get; private set; }
+    public string? Notes { get; private set; }
     public PartnerStatus Status { get; private set; }
     public DateTimeOffset CreatedAtUtc { get; private set; }
     public IReadOnlyCollection<PartnerUser> Users => _users.AsReadOnly();
@@ -50,12 +54,19 @@ public sealed class Partner
 
     public void ChangeAddress(Address? address) => Address = address;
 
+    public void ChangePhone(string? phone) => Phone = Normalize(phone);
+
+    public void ChangeNotes(string? notes) => Notes = Normalize(notes);
+
     public void Deactivate() => Status = PartnerStatus.Inactive;
 
-    public PartnerUser AddUser(Guid id, Email email, string firstName, string lastName)
+    public PartnerUser AddUser(Guid id, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
-        var user = new PartnerUser(id, Id, email, firstName, lastName);
+        var user = new PartnerUser(id, Id, email, firstName, lastName, phone, notes);
         _users.Add(user);
         return user;
     }
+
+    private static string? Normalize(string? value)
+        => string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 }

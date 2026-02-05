@@ -8,6 +8,7 @@
 
 ### Features
 - add access-control skeleton and refine partners owned types
+- add updates, soft delete filtering, and docs
 
 ### Fixes
 - align jwt issuer validation

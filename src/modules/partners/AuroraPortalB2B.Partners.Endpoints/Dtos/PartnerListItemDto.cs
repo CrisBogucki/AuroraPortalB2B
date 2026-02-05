@@ -5,4 +5,6 @@ public sealed record PartnerListItemDto(
     string Name,
     string Nip,
     string? Regon,
-    string Status);
+    string Status,
+    string? Phone,
+    string? Notes);

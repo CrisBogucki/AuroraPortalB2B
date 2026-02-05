@@ -11,5 +11,7 @@ public sealed record UpdatePartnerCommand(
     string? CountryCode,
     string? City,
     string? Street,
-    string? PostalCode)
+    string? PostalCode,
+    string? Phone = null,
+    string? Notes = null)
     : IRequest<Result>;

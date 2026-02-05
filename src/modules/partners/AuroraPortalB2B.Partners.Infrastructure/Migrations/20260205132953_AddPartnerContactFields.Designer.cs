@@ -3,6 +3,7 @@ using System;
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
 {
     [DbContext(typeof(PartnersDbContext))]
-    partial class PartnersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205132953_AddPartnerContactFields")]
+    partial class AddPartnerContactFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,13 +41,11 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("notes");
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("phone");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -75,16 +76,14 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("notes");
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<Guid>("PartnerId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("phone");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

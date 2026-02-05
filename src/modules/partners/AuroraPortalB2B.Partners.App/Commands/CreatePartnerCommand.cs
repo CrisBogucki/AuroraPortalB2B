@@ -10,4 +10,6 @@ public sealed record CreatePartnerCommand(
     string? CountryCode,
     string? City,
     string? Street,
-    string? PostalCode) : IRequest<Result<Guid>>;
+    string? PostalCode,
+    string? Phone = null,
+    string? Notes = null) : IRequest<Result<Guid>>;

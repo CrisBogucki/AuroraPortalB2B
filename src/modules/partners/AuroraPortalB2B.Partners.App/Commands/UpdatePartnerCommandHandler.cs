@@ -73,6 +73,8 @@ public sealed class UpdatePartnerCommandHandler(
             partner.ChangeNip(nip);
             partner.ChangeRegon(regon);
             partner.ChangeAddress(address);
+            partner.ChangePhone(command.Phone);
+            partner.ChangeNotes(command.Notes);
         }
         catch (ArgumentException ex)
         {

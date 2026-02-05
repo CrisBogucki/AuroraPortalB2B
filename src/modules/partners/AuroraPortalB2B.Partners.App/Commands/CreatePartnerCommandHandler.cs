@@ -69,7 +69,9 @@ public sealed class CreatePartnerCommandHandler(
                 command.Name,
                 nip,
                 regon,
-                address);
+                address,
+                command.Phone,
+                command.Notes);
         }
         catch (ArgumentException ex)
         {

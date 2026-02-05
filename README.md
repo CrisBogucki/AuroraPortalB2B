@@ -174,6 +174,3 @@ curl -X GET \\
   "http://localhost:5248/api/v1/partners" \\
   -H "Authorization: Bearer <token>"
 ```
-
-If you still see `Account is not fully set up`, use Rider request:
-- `requests/keycloak-admin-reset.http`

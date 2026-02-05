@@ -4,4 +4,6 @@ public sealed record UpdatePartnerRequest(
     string Name,
     string Nip,
     string? Regon,
-    AddressDto? Address);
+    AddressDto? Address,
+    string? Phone = null,
+    string? Notes = null);

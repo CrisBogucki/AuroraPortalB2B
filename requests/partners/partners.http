@@ -27,7 +27,9 @@ Accept: application/json
     "city": "Krakow",
     "street": "Main 1",
     "postalCode": "30-001"
-  }
+  },
+  "phone": "+48 600 100 200",
+  "notes": "Primary account for Krakow region."
 }
 
 ### Get partner by id
@@ -56,7 +58,9 @@ Accept: application/json
     "city": "Warsaw",
     "street": "Main 2",
     "postalCode": "00-001"
-  }
+  },
+  "phone": "+48 600 999 111",
+  "notes": "Updated contact details."
 }
 
 ### Deactivate partner (soft delete)
@@ -73,7 +77,9 @@ Accept: application/json
 {
   "email": "user@acme.com",
   "firstName": "Jan",
-  "lastName": "Nowak"
+  "lastName": "Nowak",
+  "phone": "+48 600 222 333",
+  "notes": "Primary contact."
 }
 
 ### List partner users
@@ -96,7 +102,9 @@ Accept: application/json
 {
   "email": "new@acme.com",
   "firstName": "Anna",
-  "lastName": "Kowalska"
+  "lastName": "Kowalska",
+  "phone": "+48 600 444 555",
+  "notes": "Updated contact details."
 }
 
 ### Deactivate partner user (soft delete)

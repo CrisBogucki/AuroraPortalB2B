@@ -17,6 +17,16 @@ public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
             .HasMaxLength(200)
             .IsRequired();
 
+        builder.Property(partner => partner.Phone)
+            .HasColumnName("phone")
+            .HasMaxLength(30)
+            .IsRequired(false);
+
+        builder.Property(partner => partner.Notes)
+            .HasColumnName("notes")
+            .HasMaxLength(1000)
+            .IsRequired(false);
+
         builder.Property(partner => partner.Status)
             .HasConversion<int>()
             .IsRequired();
