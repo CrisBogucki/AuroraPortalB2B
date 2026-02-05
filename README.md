@@ -87,6 +87,25 @@ Swagger is available at `/swagger` when running in Development.
 
 The application applies EF Core migrations on startup for the Partners module.
 
+## Migrations (EF Core)
+Partners migrations live in `src/modules/partners/AuroraPortalB2B.Partners.Infrastructure`.
+
+Add a migration:
+```sh
+dotnet ef migrations add <Name> \
+  --project src/modules/partners/AuroraPortalB2B.Partners.Infrastructure \
+  --output-dir Migrations \
+  --no-build
+```
+
+Apply migrations to a database:
+```sh
+PARTNERS_CONNECTION_STRING="Host=localhost;Port=5432;Database=aurora_partners;Username=postgres;Password=postgres" \
+dotnet ef database update \
+  --project src/modules/partners/AuroraPortalB2B.Partners.Infrastructure \
+  --no-build
+```
+
 ## Authentication (Keycloak)
 All API requests require a Bearer token.
 

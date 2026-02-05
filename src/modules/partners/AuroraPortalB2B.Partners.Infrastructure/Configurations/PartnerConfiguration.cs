@@ -35,6 +35,9 @@ public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
 
         builder.OwnsOne(partner => partner.Regon, owned =>
         {
+            owned.ToTable("partner_regons");
+            owned.WithOwner().HasForeignKey("PartnerId");
+            owned.HasKey("PartnerId");
             owned.Property(regon => regon.Value)
                 .HasColumnName("regon")
                 .HasMaxLength(14)
@@ -43,6 +46,9 @@ public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
 
         builder.OwnsOne(partner => partner.Address, owned =>
         {
+            owned.ToTable("partner_addresses");
+            owned.WithOwner().HasForeignKey("PartnerId");
+            owned.HasKey("PartnerId");
             owned.Property(address => address.CountryCode)
                 .HasColumnName("country_code")
                 .HasMaxLength(2)

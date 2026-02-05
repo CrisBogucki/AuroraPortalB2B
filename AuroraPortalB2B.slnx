@@ -2,22 +2,22 @@
   <Folder Name="/deploy/">
     <File Path="deploy/docker-compose.local.yml" />
     <File Path="deploy/Dockerfile.host" />
-    <File Path="deploy\partners.sql" />
-    <File Path="deploy\docker-compose.keycloak.yml" />
+    <File Path="deploy/partners.sql" />
+    <File Path="deploy/docker-compose.keycloak.yml" />
   </Folder>
   <Folder Name="/deploy/keycloak/">
-    <File Path="deploy\keycloak\realm-aurora.json" />
+    <File Path="deploy/keycloak/realm-aurora.json" />
   </Folder>
   <Folder Name="/docs/">
-    <File Path="docs\tests.md" />
+    <File Path="docs/tests.md" />
   </Folder>
   <Folder Name="/requests/">
-    <File Path="requests\\keycloak-token.http" />
-    <File Path="requests\\keycloak-admin-reset.http" />
+    <File Path="requests/keycloak-token.http" />
+    <File Path="requests/keycloak-admin-reset.http" />
   </Folder>
   <Folder Name="/scripts/">
-    <File Path="scripts\test.sh" />
-    <File Path="scripts\changelog.sh" />
+    <File Path="scripts/test.sh" />
+    <File Path="scripts/changelog.sh" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/AuroraPortalB2B.Host/AuroraPortalB2B.Host.csproj" />
@@ -26,6 +26,13 @@
     <Project Path="src/core/AuroraPortalB2B.Core.Mediator/AuroraPortalB2B.Core.Mediator.csproj" />
   </Folder>
   <Folder Name="/src/modules/" />
+  <Folder Name="/src/modules/access-control/">
+    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.App/AuroraPortalB2B.AccessControl.App.csproj" />
+    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Domain/AuroraPortalB2B.AccessControl.Domain.csproj" />
+    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Endpoints/AuroraPortalB2B.AccessControl.Endpoints.csproj" />
+    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Infrastructure/AuroraPortalB2B.AccessControl.Infrastructure.csproj" />
+    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Module/AuroraPortalB2B.AccessControl.Module.csproj" />
+  </Folder>
   <Folder Name="/src/modules/partners/">
     <Project Path="src/modules/partners/AuroraPortalB2B.Partners.App/AuroraPortalB2B.Partners.App.csproj" />
     <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Domain/AuroraPortalB2B.Partners.Domain.csproj" />
