@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.0.3
 
 ### Chore
 - update changelog
@@ -9,6 +9,7 @@
 ### Features
 - add access-control skeleton and refine partners owned types
 - add updates, soft delete filtering, and docs
+- add partner contact fields and migrations
 
 ### Fixes
 - align jwt issuer validation
