@@ -3,6 +3,11 @@
 ## LATEST
 
 ### Fixes
+- remove keycloak admin hostname env
+
+## v0.1.8
+
+### Fixes
 - set keycloak hostname as url
 
 ## v0.1.7
