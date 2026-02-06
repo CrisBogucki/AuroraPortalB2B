@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="96" viewBox="0 0 320 96">
+  <rect x="0" y="0" width="320" height="96" rx="12" fill="#0A6ED1"/>
+  <rect x="10" y="10" width="300" height="76" rx="10" fill="#FFFFFF"/>
+  <text x="30" y="58" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#0A6ED1" font-weight="700">Aurora B2B</text>
+  <rect x="240" y="30" width="60" height="36" rx="6" fill="#0A6ED1"/>
+  <text x="252" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="600">API</text>
+</svg>

@@ -1,6 +1,16 @@
+![Aurora Portal B2B](docs/assets/aurora-b2b-banner.svg)
+
 # AuroraPortalB2B
 
-Backend solution for the Aurora B2B portal.
+Enterprise-grade backend for the Aurora B2B portal. The solution provides a modular API with Keycloak-based authentication and partner management capabilities.
+
+![Aurora B2B](docs/assets/aurora-b2b-logo.svg)
+
+## Overview
+- Modular .NET backend with Partners domain.
+- Keycloak integration (OIDC/JWT).
+- Permission-based authorization.
+- Docker-first local and demo deployment.
 
 ## Structure
 - `src/` application and modules
@@ -35,9 +45,9 @@ cargo install git-cliff
 ```
 
 ## Release (v0.0.1 example)
-`./scripts/publish.sh` now:
+`./scripts/publish.sh`:
 - generates `CHANGELOG.md`
-- stages the file (no commit)
+- commits changelog updates automatically
 - creates a `vX.Y.Z` tag based on Conventional Commits
 - pushes `main` and tags
 
@@ -49,6 +59,22 @@ Usage:
 Notes:
 - The working tree must be clean (no uncommitted changes).
 - Tag format is always `vX.Y.Z`.
+
+## Demo Deployment (Render)
+Current demo deployment uses Render Blueprint (`render.yaml`).
+
+Endpoints:
+- API: https://aurora-b2b-api.onrender.com
+- Swagger: https://aurora-b2b-api.onrender.com/swagger/index.html
+- Keycloak: https://aurora-b2b-keycloak.onrender.com
+
+Deploy status:
+- Render Dashboard: https://dashboard.render.com
+- Auto-deploy triggers on `main` when enabled in Render service settings.
+
+Notes:
+- Render Free services sleep when idle; the first request can take ~30–60s.
+- If Render assigns different service URLs, update `render.yaml` and redeploy.
 
 ## Run (local)
 Keycloak runs in a separate compose file but uses the same shared network.
@@ -133,12 +159,12 @@ On startup, Keycloak imports:
 
 #### Get a token (password grant)
 ```sh
-curl -X POST \\
-  "http://localhost:8080/realms/aurora/protocol/openid-connect/token" \\
-  -H "Content-Type: application/x-www-form-urlencoded" \\
-  -d "client_id=aurora-b2b" \\
-  -d "grant_type=password" \\
-  -d "username=test-user" \\
+curl -X POST \
+  "http://localhost:8080/realms/aurora/protocol/openid-connect/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=aurora-b2b" \
+  -d "grant_type=password" \
+  -d "username=test-user" \
   -d "password=test-password"
 ```
 
@@ -167,7 +193,7 @@ docker compose -f deploy/docker-compose.keycloak.yml exec -T aurora_portal_b2b_k
 
 Use the `access_token` from the response:
 ```sh
-curl -X GET \\
-  "http://localhost:5248/api/v1/partners" \\
+curl -X GET \
+  "http://localhost:5248/api/v1/partners" \
   -H "Authorization: Bearer <token>"
 ```
