@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixes
+- normalize partners connection string for render
+
+## v0.1.2
+
 ### Chore
 - update release tooling and demo config
 
