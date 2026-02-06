@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased
+## v0.1.0
 
 ### Chore
 - update changelog
+
+### Features
+- add keycloak user mapping and permission policies
 
 ## v0.0.3
 
