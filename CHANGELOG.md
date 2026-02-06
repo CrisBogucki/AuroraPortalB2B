@@ -3,6 +3,15 @@
 ## LATEST
 
 ### Chore
+- update slnx
+
+### Docs
+- refresh README branding and deployment info
+- rename and expand testing guide
+
+## v0.1.5
+
+### Chore
 - update solution metadata
 
 ### Fixes
