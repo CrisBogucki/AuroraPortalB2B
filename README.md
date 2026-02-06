@@ -35,23 +35,20 @@ cargo install git-cliff
 ```
 
 ## Release (v0.0.1 example)
-1. Generate changelog:
+`./scripts/publish.sh` now:
+- generates `CHANGELOG.md`
+- stages the file (no commit)
+- creates a `vX.Y.Z` tag based on Conventional Commits
+- pushes `main` and tags
+
+Usage:
 ```sh
-./scripts/changelog.sh
+./scripts/publish.sh
 ```
-2. Commit changelog:
-```sh
-git add CHANGELOG.md
-git commit -m "chore: update changelog"
-```
-3. Create tag:
-```sh
-git tag v0.0.1
-```
-4. Push tag (optional):
-```sh
-git push --tags
-```
+
+Notes:
+- The working tree must be clean (no uncommitted changes).
+- Tag format is always `vX.Y.Z`.
 
 ## Run (local)
 Keycloak runs in a separate compose file but uses the same shared network.

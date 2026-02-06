@@ -1,0 +1,71 @@
+services:
+  - type: web
+    name: aurora-b2b-api
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: deploy/Dockerfile.host
+    dockerContext: .
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Development
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:10000
+      - key: ConnectionStrings__partners
+        fromDatabase:
+          name: aurora-b2b-partners-db
+          property: connectionString
+      - key: Keycloak__Authority
+        value: https://aurora-b2b-keycloak.onrender.com/realms/aurora
+      - key: Keycloak__MetadataAddress
+        value: https://aurora-b2b-keycloak.onrender.com/realms/aurora/.well-known/openid-configuration
+      - key: Keycloak__Audience
+        value: aurora-b2b
+      - key: Keycloak__RequireHttpsMetadata
+        value: "true"
+      - key: Keycloak__ValidIssuers__0
+        value: https://aurora-b2b-keycloak.onrender.com/realms/aurora
+
+  - type: web
+    name: aurora-b2b-keycloak
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: deploy/Dockerfile.keycloak
+    dockerContext: .
+    envVars:
+      - key: KC_DB
+        value: postgres
+      - key: KC_DB_URL_HOST
+        fromDatabase:
+          name: aurora-b2b-keycloak-db
+          property: host
+      - key: KC_DB_URL_DATABASE
+        fromDatabase:
+          name: aurora-b2b-keycloak-db
+          property: database
+      - key: KC_DB_USERNAME
+        fromDatabase:
+          name: aurora-b2b-keycloak-db
+          property: user
+      - key: KC_DB_PASSWORD
+        fromDatabase:
+          name: aurora-b2b-keycloak-db
+          property: password
+      - key: KC_BOOTSTRAP_ADMIN_USERNAME
+        value: admin
+      - key: KC_BOOTSTRAP_ADMIN_PASSWORD
+        value: admin
+      - key: KC_HOSTNAME_URL
+        value: https://aurora-b2b-keycloak.onrender.com
+      - key: KC_PROXY
+        value: edge
+
+databases:
+  - name: aurora-b2b-partners-db
+    plan: free
+    region: oregon
+
+  - name: aurora-b2b-keycloak-db
+    plan: free
+    region: oregon

@@ -1,0 +1,8 @@
+FROM quay.io/keycloak/keycloak:26.0.0
+
+COPY deploy/keycloak/realm-aurora.json /opt/keycloak/data/import/realm-aurora.json
+COPY deploy/keycloak/start.sh /opt/keycloak/start.sh
+
+RUN chmod +x /opt/keycloak/start.sh
+
+ENTRYPOINT ["/opt/keycloak/start.sh"]

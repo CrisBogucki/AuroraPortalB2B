@@ -1,15 +1,6 @@
 # Changelog
 
-## Unreleased
-
-### Chore
-- update changelog
-- update changelog
-
 ## v0.1.0
-
-### Chore
-- update changelog
 
 ### Features
 - add keycloak user mapping and permission policies
@@ -17,7 +8,6 @@
 ## v0.0.3
 
 ### Chore
-- update changelog
 - update readme
 
 ### Features
@@ -31,7 +21,6 @@
 ## v0.0.2
 
 ### Chore
-- update changelog
 - update readme
 - update readme
 
@@ -43,6 +32,5 @@
 ### Chore
 - initialize repository
 - setup git-cliff and startup migrations
-- update changelog
 
 
