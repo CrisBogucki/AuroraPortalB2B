@@ -1,6 +1,15 @@
 # Changelog
 
-## Unreleased
+## LATEST
+
+### Chore
+- update solution metadata
+
+### Fixes
+- update keycloak hostname config for render
+- harden keycloak hostname config for render
+
+## v0.1.4
 
 ### Fixes
 - update keycloak hostname env for v2 config
