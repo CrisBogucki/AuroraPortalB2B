@@ -1,6 +1,6 @@
 [changelog]
 header = "# Changelog\n\n"
-body = "{% if version %}## {{ version }}{% else %}## Unreleased{% endif %}\n\n{% for group, commits in commits | group_by(attribute=\"group\") %}### {{ group }}\n{% for commit in commits %}- {{ commit.message | split(pat=\"\n\") | first }}\n{% endfor %}\n{% endfor %}"
+body = "{% if version %}## {{ version }}{% else %}## LATEST{% endif %}\n\n{% for group, commits in commits | group_by(attribute=\"group\") %}### {{ group }}\n{% for commit in commits %}- {{ commit.message | split(pat=\"\n\") | first }}\n{% endfor %}\n{% endfor %}"
 trim = true
 footer = ""
 
