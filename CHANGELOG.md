@@ -2,6 +2,12 @@
 
 ## LATEST
 
+### Features
+- add health checks
+- improve logging and favicon
+
+## v0.1.9
+
 ### Fixes
 - remove keycloak admin hostname env
 
