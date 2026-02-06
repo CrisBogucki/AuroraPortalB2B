@@ -64,8 +64,6 @@ services:
         value: "true"
       - key: KC_HOSTNAME_STRICT
         value: "true"
-      - key: KC_HOSTNAME_ADMIN
-        value: https://aurora-b2b-keycloak.onrender.com
       - key: KC_HTTP_ENABLED
         value: "true"
 
