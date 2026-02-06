@@ -22,7 +22,8 @@ normalized_version="${bumped_version#v}"
 git-cliff -c .git-cliff.toml -o CHANGELOG.md
 
 if ! git diff --quiet -- CHANGELOG.md; then
-  git add CHANGELOG.md
+  echo "CHANGELOG.md was updated. Commit it first, then rerun publish.sh." >&2
+  exit 1
 fi
 
 tag="v${normalized_version}"

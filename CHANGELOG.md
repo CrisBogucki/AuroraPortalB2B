@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Chore
+- update release tooling and demo config
+
 ## v0.1.0
 
 ### Features
