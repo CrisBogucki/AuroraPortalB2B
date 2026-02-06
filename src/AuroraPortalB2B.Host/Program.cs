@@ -1,5 +1,7 @@
 using AuroraPortalB2B.Host.Configuration;
 using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,9 @@ builder.WebHost.ConfigureKestrel(options =>
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .Enrich.FromLogContext()
-    .WriteTo.Console()
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
     .CreateLogger();
 
 builder.Host.UseSerilog();

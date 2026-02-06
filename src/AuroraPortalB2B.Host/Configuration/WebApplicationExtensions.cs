@@ -5,6 +5,10 @@ using AuroraPortalB2B.Partners.Module.Endpoints;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Text.Json;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Serilog;
+using Serilog.Context;
+using Serilog.Events;
+using System.Diagnostics;
 
 namespace AuroraPortalB2B.Host.Configuration;
 
@@ -30,7 +34,28 @@ public static class WebApplicationExtensions
         }
 
         app.UseHttpsRedirection();
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.GetLevel = (context, _, _) =>
+                context.Request.Path.StartsWithSegments("/hc")
+                    ? LogEventLevel.Debug
+                    : LogEventLevel.Information;
+
+            options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+            options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            {
+                var username = ResolveUsername(httpContext);
+                diagnosticContext.Set("Username", username);
+                diagnosticContext.Set("TraceId", ResolveTraceId(httpContext));
+            };
+        });
         app.UseAuthentication();
+        app.Use((context, next) =>
+        {
+            using var traceId = LogContext.PushProperty("TraceId", ResolveTraceId(context));
+            using var username = LogContext.PushProperty("Username", ResolveUsername(context));
+            return next();
+        });
         app.UseAuthorization();
 
         return app;
@@ -38,6 +63,9 @@ public static class WebApplicationExtensions
 
     public static WebApplication MapHostEndpoints(this WebApplication app)
     {
+        app.MapGet("/favicon.ico", () => Results.NoContent())
+            .AllowAnonymous();
+
         app.MapHealthChecks("/hc", new HealthCheckOptions
         {
             Predicate = check => check.Tags.Contains("live"),
@@ -108,5 +136,22 @@ public static class WebApplicationExtensions
         writer.Flush();
 
         return Task.CompletedTask;
+    }
+
+    private static string ResolveTraceId(HttpContext context)
+        => Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier;
+
+    private static string ResolveUsername(HttpContext context)
+    {
+        var user = context.User;
+        if (user?.Identity?.IsAuthenticated == true)
+        {
+            return user.Identity?.Name
+                ?? user.FindFirst("preferred_username")?.Value
+                ?? user.FindFirst("sub")?.Value
+                ?? "unknown";
+        }
+
+        return "anonymous";
     }
 }
