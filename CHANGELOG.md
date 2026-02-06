@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Fixes
+- update keycloak hostname env for v2 config
+
+## v0.1.3
+
 ### Chore
 - auto-commit changelog in publish
 
