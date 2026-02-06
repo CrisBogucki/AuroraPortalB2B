@@ -3,6 +3,11 @@
 ## LATEST
 
 ### Features
+- switch log format by environment
+
+## v0.2.0
+
+### Features
 - add health checks
 - improve logging and favicon
 
