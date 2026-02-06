@@ -6,4 +6,29 @@ if ! command -v git-cliff >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "Working tree is not clean. Commit or stash changes before running this script." >&2
+  exit 1
+fi
+
+bumped_version="$(git-cliff --bumped-version --unreleased -c .git-cliff.toml 2>/dev/null || true)"
+if [ -z "$bumped_version" ]; then
+  echo "No unreleased changes to version. Aborting." >&2
+  exit 1
+fi
+
 git-cliff -c .git-cliff.toml -o CHANGELOG.md
+
+if ! git diff --quiet -- CHANGELOG.md; then
+  git add CHANGELOG.md
+fi
+
+tag="v${bumped_version}"
+if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+  echo "Tag $tag already exists. Aborting." >&2
+  exit 1
+fi
+
+git tag "$tag"
+git push
+git push --tags
