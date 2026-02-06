@@ -17,13 +17,15 @@ if [ -z "$bumped_version" ]; then
   exit 1
 fi
 
+normalized_version="${bumped_version#v}"
+
 git-cliff -c .git-cliff.toml -o CHANGELOG.md
 
 if ! git diff --quiet -- CHANGELOG.md; then
   git add CHANGELOG.md
 fi
 
-tag="v${bumped_version}"
+tag="v${normalized_version}"
 if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
   echo "Tag $tag already exists. Aborting." >&2
   exit 1

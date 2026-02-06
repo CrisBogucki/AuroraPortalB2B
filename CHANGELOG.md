@@ -4,6 +4,7 @@
 
 ### Chore
 - update changelog
+- update changelog
 
 ## v0.1.0
 
