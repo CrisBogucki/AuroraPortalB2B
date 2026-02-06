@@ -59,7 +59,7 @@ services:
       - key: KC_PROXY
         value: edge
       - key: KC_HOSTNAME
-        value: aurora-b2b-keycloak.onrender.com
+        value: https://aurora-b2b-keycloak.onrender.com
       - key: KC_HOSTNAME_STRICT_HTTPS
         value: "true"
       - key: KC_HOSTNAME_STRICT
