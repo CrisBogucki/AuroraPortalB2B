@@ -56,10 +56,14 @@ services:
         value: admin
       - key: KC_BOOTSTRAP_ADMIN_PASSWORD
         value: admin
-      - key: KC_HOSTNAME_URL
-        value: https://aurora-b2b-keycloak.onrender.com
       - key: KC_PROXY
         value: edge
+      - key: KC_HOSTNAME
+        value: aurora-b2b-keycloak.onrender.com
+      - key: KC_HOSTNAME_STRICT
+        value: "false"
+      - key: KC_HOSTNAME_STRICT_HTTPS
+        value: "true"
 
 databases:
   - name: aurora-b2b-partners-db
