@@ -1,5 +1,6 @@
 using AuroraPortalB2B.Host.Configuration.ApiVersioning;
 using AuroraPortalB2B.Host.Configuration.Authentication;
+using AuroraPortalB2B.Host.Configuration.HealthChecks.Registration;
 using AuroraPortalB2B.Host.Configuration.Modules;
 using AuroraPortalB2B.Host.Configuration.Swagger;
 
@@ -13,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddHostApiVersioning();
         services.AddHostSwagger();
         services.AddHostModules(configuration);
+        services.AddHostHealthChecks();
 
         return services;
     }

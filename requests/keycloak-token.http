@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:8080
+//@baseUrl = https://aurora-b2b-keycloak.onrender.com/
 @realm = aurora
 @clientId = aurora-b2b
 @username = test-user
