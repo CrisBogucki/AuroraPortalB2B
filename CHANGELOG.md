@@ -3,6 +3,14 @@
 ## LATEST
 
 ### Chore
+- update readme
+
+### Fixes
+- set keycloak admin hostname as url
+
+## v0.1.6
+
+### Chore
 - update slnx
 
 ### Docs
