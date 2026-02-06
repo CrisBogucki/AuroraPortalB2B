@@ -2,6 +2,11 @@
 
 ## LATEST
 
+### Fixes
+- set keycloak hostname as url
+
+## v0.1.7
+
 ### Chore
 - update readme
 
