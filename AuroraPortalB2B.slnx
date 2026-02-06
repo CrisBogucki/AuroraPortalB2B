@@ -11,6 +11,12 @@
   </Folder>
   <Folder Name="/docs/">
     <File Path="docs/tests.md" />
+    <File Path="docs\render-demo.md" />
+    <File Path="docs\testing.md" />
+  </Folder>
+  <Folder Name="/docs/assets/">
+    <File Path="docs\assets\aurora-b2b-banner.svg" />
+    <File Path="docs\assets\aurora-b2b-logo.svg" />
   </Folder>
   <Folder Name="/requests/">
     <File Path="requests/keycloak-token.http" />
