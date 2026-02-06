@@ -1,11 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320">
-  <rect width="1200" height="320" fill="#F5F8FA"/>
-  <rect x="40" y="40" width="1120" height="240" rx="18" fill="#FFFFFF" stroke="#E5EDF5"/>
-  <rect x="80" y="80" width="140" height="140" rx="12" fill="#0A6ED1"/>
-  <rect x="95" y="95" width="110" height="110" rx="10" fill="#FFFFFF"/>
-  <text x="115" y="162" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#0A6ED1" font-weight="700">B2B</text>
-  <text x="260" y="140" font-family="Segoe UI, Arial, sans-serif" font-size="44" fill="#0A6ED1" font-weight="700">Aurora Portal B2B</text>
-  <text x="260" y="190" font-family="Segoe UI, Arial, sans-serif" font-size="20" fill="#4F6B85">Enterprise-ready partner management platform</text>
-  <rect x="260" y="210" width="220" height="32" rx="6" fill="#0A6ED1"/>
-  <text x="280" y="232" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="600">Secure • Modular • Auditable</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#0F4C81"/>
+    </linearGradient>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#19A1A8"/>
+      <stop offset="1" stop-color="#7DD3FC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="320" fill="url(#bg)"/>
+  <g transform="translate(80,90)">
+    <rect x="0" y="0" width="140" height="140" rx="18" fill="#0E1B2D" stroke="#1F3B57"/>
+    <path d="M12 92 C42 40, 98 24, 126 56" fill="none" stroke="url(#aurora)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M12 120 C48 70, 104 54, 126 80" fill="none" stroke="url(#aurora)" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="28" cy="104" r="6" fill="#7DD3FC"/>
+    <circle cx="70" cy="58" r="6" fill="#7DD3FC"/>
+    <circle cx="110" cy="44" r="6" fill="#7DD3FC"/>
+  </g>
+  <text x="270" y="160" font-family="Segoe UI, Arial, sans-serif" font-size="46" fill="#E6EDF3" font-weight="700">Aurora Portal B2B</text>
 </svg>
