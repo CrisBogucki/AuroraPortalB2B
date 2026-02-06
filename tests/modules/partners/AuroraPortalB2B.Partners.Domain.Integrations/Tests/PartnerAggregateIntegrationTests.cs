@@ -14,7 +14,7 @@ public sealed class PartnerAggregateIntegrationTests
         var email = new Email("user@acme.com");
 
         // act
-        var user = partner.AddUser(Guid.NewGuid(), email, "Jan", "Nowak");
+        var user = partner.AddUser(Guid.NewGuid(), "kc-user-1", email, "Jan", "Nowak");
 
         // assert
         partner.Users.Should().ContainSingle();

@@ -28,6 +28,13 @@ public sealed class TestAuthHandler(
         var identity = new ClaimsIdentity("Test");
         identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "test-user"));
         identity.AddClaim(new Claim(ClaimTypes.Name, "test-user"));
+        identity.AddClaim(new Claim("sub", "test-user"));
+        identity.AddClaim(new Claim("roles", "admin"));
+        identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
+        identity.AddClaim(new Claim("permissions", "partners.read"));
+        identity.AddClaim(new Claim("permissions", "partners.write"));
+        identity.AddClaim(new Claim("permissions", "partnerUsers.read"));
+        identity.AddClaim(new Claim("permissions", "partnerUsers.write"));
 
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, "Test");

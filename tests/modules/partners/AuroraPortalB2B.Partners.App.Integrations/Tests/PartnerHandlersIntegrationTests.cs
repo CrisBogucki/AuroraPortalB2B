@@ -77,6 +77,7 @@ public sealed class PartnerHandlersIntegrationTests
         // act
         var result = await handler.Handle(new CreatePartnerUserCommand(
             partner.Id,
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak"), CancellationToken.None);

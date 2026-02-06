@@ -5,6 +5,7 @@ namespace AuroraPortalB2B.Partners.App.Commands;
 
 public sealed record CreatePartnerUserCommand(
     Guid PartnerId,
+    string KeycloakUserId,
     string Email,
     string FirstName,
     string LastName,

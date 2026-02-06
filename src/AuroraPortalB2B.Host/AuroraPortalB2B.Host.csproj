@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\modules\partners\AuroraPortalB2B.Partners.Module\AuroraPortalB2B.Partners.Module.csproj" />
+    <ProjectReference Include="..\core\AuroraPortalB2B.Core.Mediator\AuroraPortalB2B.Core.Mediator.csproj" />
   </ItemGroup>
 
 </Project>

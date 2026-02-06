@@ -7,11 +7,12 @@ public sealed class PartnerUser
     private PartnerUser()
     {
         Email = null!;
+        KeycloakUserId = string.Empty;
         FirstName = string.Empty;
         LastName = string.Empty;
     }
 
-    public PartnerUser(Guid id, Guid partnerId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
+    public PartnerUser(Guid id, Guid partnerId, string keycloakUserId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
         if (partnerId == Guid.Empty)
         {
@@ -20,6 +21,9 @@ public sealed class PartnerUser
 
         Id = id == Guid.Empty ? Guid.NewGuid() : id;
         PartnerId = partnerId;
+        KeycloakUserId = string.IsNullOrWhiteSpace(keycloakUserId)
+            ? throw new ArgumentException("Keycloak user id is required.", nameof(keycloakUserId))
+            : keycloakUserId.Trim();
         Email = email ?? throw new ArgumentNullException(nameof(email));
         FirstName = string.IsNullOrWhiteSpace(firstName)
             ? throw new ArgumentException("First name is required.", nameof(firstName))
@@ -35,6 +39,7 @@ public sealed class PartnerUser
 
     public Guid Id { get; private set; }
     public Guid PartnerId { get; private set; }
+    public string KeycloakUserId { get; private set; }
     public Email Email { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }

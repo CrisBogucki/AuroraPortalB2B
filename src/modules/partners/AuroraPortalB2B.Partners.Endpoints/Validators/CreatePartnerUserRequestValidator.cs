@@ -7,6 +7,10 @@ public sealed class CreatePartnerUserRequestValidator : AbstractValidator<Create
 {
     public CreatePartnerUserRequestValidator()
     {
+        RuleFor(request => request.KeycloakUserId)
+            .NotEmpty()
+            .MaximumLength(200);
+
         RuleFor(request => request.Email)
             .NotEmpty()
             .EmailAddress()

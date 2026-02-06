@@ -15,6 +15,14 @@ public sealed class PartnerUserConfiguration : IEntityTypeConfiguration<PartnerU
         builder.Property(user => user.PartnerId)
             .IsRequired();
 
+        builder.Property(user => user.KeycloakUserId)
+            .HasColumnName("keycloak_user_id")
+            .HasMaxLength(200)
+            .IsRequired();
+
+        builder.HasIndex(user => user.KeycloakUserId)
+            .IsUnique();
+
         builder.Property(user => user.FirstName)
             .HasMaxLength(100)
             .IsRequired();

@@ -25,6 +25,7 @@ public sealed class CreatePartnerUserCommandHandlerTests
         // act
         var result = await handler.Handle(new CreatePartnerUserCommand(
             Guid.NewGuid(),
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Kowalski"), CancellationToken.None);
@@ -51,6 +52,7 @@ public sealed class CreatePartnerUserCommandHandlerTests
         // act
         var result = await handler.Handle(new CreatePartnerUserCommand(
             partner.Id,
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Kowalski"), CancellationToken.None);

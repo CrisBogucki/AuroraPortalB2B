@@ -11,7 +11,7 @@ public sealed class CreatePartnerUserRequestValidatorTests
     {
         // arrange
         var validator = new CreatePartnerUserRequestValidator();
-        var request = new CreatePartnerUserRequest("bad", "Jan", "Kowalski");
+        var request = new CreatePartnerUserRequest("kc-user-1", "bad", "Jan", "Kowalski");
 
         // act
         var result = validator.Validate(request);
@@ -25,7 +25,7 @@ public sealed class CreatePartnerUserRequestValidatorTests
     {
         // arrange
         var validator = new CreatePartnerUserRequestValidator();
-        var request = new CreatePartnerUserRequest("user@acme.com", "Jan", "Kowalski");
+        var request = new CreatePartnerUserRequest("kc-user-1", "user@acme.com", "Jan", "Kowalski");
 
         // act
         var result = validator.Validate(request);

@@ -60,9 +60,9 @@ public sealed class Partner
 
     public void Deactivate() => Status = PartnerStatus.Inactive;
 
-    public PartnerUser AddUser(Guid id, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
+    public PartnerUser AddUser(Guid id, string keycloakUserId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
-        var user = new PartnerUser(id, Id, email, firstName, lastName, phone, notes);
+        var user = new PartnerUser(id, Id, keycloakUserId, email, firstName, lastName, phone, notes);
         _users.Add(user);
         return user;
     }

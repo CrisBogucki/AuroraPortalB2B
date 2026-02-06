@@ -7,6 +7,8 @@ public static class SwaggerServiceCollectionExtensions
         services.AddSwaggerGen(options =>
         {
             options.OperationFilter<BearerSecurityOperationFilter>();
+            options.OperationFilter<PermissionDescriptionOperationFilter>();
+            options.DocumentFilter<TagOrderingDocumentFilter>();
         });
         services.ConfigureOptions<ConfigureSwaggerOptions>();
         return services;

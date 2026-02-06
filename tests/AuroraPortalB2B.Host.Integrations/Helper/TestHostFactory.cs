@@ -22,6 +22,7 @@ public sealed class TestHostFactory : WebApplicationFactory<Program>
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes("Test")
                     .RequireAuthenticatedUser()

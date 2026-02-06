@@ -40,7 +40,7 @@ public sealed class PartnerTests
         var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
 
         // act
-        var user = partner.AddUser(Guid.NewGuid(), new Email("user@acme.com"), "Jan", "Kowalski");
+        var user = partner.AddUser(Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");
 
         // assert
         partner.Users.Should().Contain(user);

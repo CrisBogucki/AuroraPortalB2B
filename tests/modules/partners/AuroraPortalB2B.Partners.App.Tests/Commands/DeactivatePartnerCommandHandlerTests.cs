@@ -66,8 +66,8 @@ public sealed class DeactivatePartnerCommandHandlerTests
         var uow = new Mock<IUnitOfWork>();
         var partnerId = Guid.NewGuid();
         var partner = new Partner(partnerId, "Acme", new Nip("1234563218"));
-        var user1 = new PartnerUser(Guid.NewGuid(), partnerId, new Email("user1@acme.com"), "Jan", "Nowak");
-        var user2 = new PartnerUser(Guid.NewGuid(), partnerId, new Email("user2@acme.com"), "Anna", "Kowalska");
+        var user1 = new PartnerUser(Guid.NewGuid(), partnerId, "kc-user-1", new Email("user1@acme.com"), "Jan", "Nowak");
+        var user2 = new PartnerUser(Guid.NewGuid(), partnerId, "kc-user-2", new Email("user2@acme.com"), "Anna", "Kowalska");
 
         repo.Setup(r => r.GetByIdAsync(partnerId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(partner);

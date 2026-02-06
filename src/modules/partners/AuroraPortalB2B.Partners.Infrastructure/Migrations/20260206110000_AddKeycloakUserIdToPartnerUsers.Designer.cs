@@ -3,6 +3,7 @@ using System;
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
 {
     [DbContext(typeof(PartnersDbContext))]
-    partial class PartnersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260206110000_AddKeycloakUserIdToPartnerUsers")]
+    partial class AddKeycloakUserIdToPartnerUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,21 +66,21 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
-                b.Property<string>("FirstName")
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnType("character varying(100)");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                b.Property<string>("KeycloakUserId")
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .HasColumnType("character varying(200)")
-                    .HasColumnName("keycloak_user_id");
+                    b.Property<string>("KeycloakUserId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("keycloak_user_id");
 
-                b.Property<string>("LastName")
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnType("character varying(100)");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
@@ -95,12 +98,12 @@ namespace AuroraPortalB2B.Partners.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                b.HasKey("Id");
+                    b.HasKey("Id");
 
-                b.HasIndex("KeycloakUserId")
-                    .IsUnique();
+                    b.HasIndex("KeycloakUserId")
+                        .IsUnique();
 
-                b.HasIndex("PartnerId");
+                    b.HasIndex("PartnerId");
 
                     b.ToTable("partner_users", (string)null);
                 });

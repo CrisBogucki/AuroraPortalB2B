@@ -98,6 +98,7 @@ public sealed class PartnersEndpointsIntegrationTests
         var partnerId = await CreatePartnerAsync(client, "Beta");
 
         var request = new CreatePartnerUserRequest(
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak");
@@ -125,6 +126,7 @@ public sealed class PartnersEndpointsIntegrationTests
         var partnerId = await CreatePartnerAsync(client, "Gamma");
 
         var request = new CreatePartnerUserRequest(
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak");
@@ -154,6 +156,7 @@ public sealed class PartnersEndpointsIntegrationTests
 
         var partnerId = await CreatePartnerAsync(client, "Delta");
         var userRequest = new CreatePartnerUserRequest(
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak");
@@ -199,6 +202,7 @@ public sealed class PartnersEndpointsIntegrationTests
         var partnerId = await CreatePartnerAsync(client, "Epsilon");
 
         var request = new CreatePartnerUserRequest(
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak");
@@ -271,6 +275,7 @@ public sealed class PartnersEndpointsIntegrationTests
         var partnerId = await CreatePartnerAsync(client, "Eta");
 
         var createUserRequest = new CreatePartnerUserRequest(
+            "kc-user-1",
             "user@acme.com",
             "Jan",
             "Nowak");
@@ -330,6 +335,7 @@ public sealed class PartnersEndpointsIntegrationTests
         builder.Services.AddAuthentication("Test")
             .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
         builder.Services.AddAuthorizationBuilder()
+            .AddPolicy("AdminOnly", policy => policy.RequireRole("admin"))
             .SetFallbackPolicy(new AuthorizationPolicyBuilder()
                 .AddAuthenticationSchemes("Test")
                 .RequireAuthenticatedUser()

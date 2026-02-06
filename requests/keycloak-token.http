@@ -19,3 +19,36 @@ client_id={{clientId}}&grant_type=password&username={{username}}&password={{pass
 GET http://localhost:5248/api/v1/partners
 Authorization: Bearer {{kcAccessToken}}
 Accept: application/json
+
+### Get access token (admin-user)
+# @name tokenRequestAdmin
+POST {{baseUrl}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{clientId}}&grant_type=password&username=admin-user&password=admin-password
+
+> {%
+  client.global.set("kcAccessTokenAdmin", response.body.access_token);
+%}
+
+### Call API with admin token
+GET http://localhost:5248/api/v1/partners
+Authorization: Bearer {{kcAccessTokenAdmin}}
+Accept: application/json
+
+### Get access token (partner-user)
+# @name tokenRequestPartnerUser
+POST {{baseUrl}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{clientId}}&grant_type=password&username=partner-user&password=partner-password
+
+> {%
+  client.global.set("kcAccessTokenPartner", response.body.access_token);
+%}
+
+### Call API with partner token (example: partner details)
+# Replace <partner-id> with the partner id assigned to partner-user
+GET http://localhost:5248/api/v1/partners/<partner-id>
+Authorization: Bearer {{kcAccessTokenPartner}}
+Accept: application/json

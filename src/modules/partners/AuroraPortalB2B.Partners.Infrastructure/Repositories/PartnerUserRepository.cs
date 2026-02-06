@@ -17,6 +17,10 @@ public sealed class PartnerUserRepository(PartnersDbContext dbContext) : IPartne
         => dbContext.PartnerUsers
             .FirstOrDefaultAsync(user => user.Email.Value == email.Value, cancellationToken);
 
+    public Task<PartnerUser?> GetByKeycloakUserIdAsync(string keycloakUserId, CancellationToken cancellationToken = default)
+        => dbContext.PartnerUsers
+            .FirstOrDefaultAsync(user => user.KeycloakUserId == keycloakUserId, cancellationToken);
+
     public async Task<IReadOnlyList<PartnerUser>> ListByPartnerIdAsync(Guid partnerId, int limit, int offset, bool includeInactive = false, CancellationToken cancellationToken = default)
         => await dbContext.PartnerUsers
             .Where(user => includeInactive || user.Status == PartnerUserStatus.Active)

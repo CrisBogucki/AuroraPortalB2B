@@ -8,6 +8,7 @@ public static class PartnersModuleEndpointExtensions
     public static IEndpointRouteBuilder MapPartnersModule(this IEndpointRouteBuilder endpoints)
     {
         endpoints.MapPartnersEndpoints();
+        endpoints.MapPartnerUsersEndpoints();
         return endpoints;
     }
 }
