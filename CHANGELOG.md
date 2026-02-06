@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Chore
+- auto-commit changelog in publish
+
 ### Fixes
 - normalize partners connection string for render
 
