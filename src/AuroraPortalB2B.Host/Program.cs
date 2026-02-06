@@ -2,6 +2,7 @@ using AuroraPortalB2B.Host.Configuration;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
+using Serilog.Formatting.Display;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +11,23 @@ builder.WebHost.ConfigureKestrel(options =>
     options.AddServerHeader = false;
 });
 
-Log.Logger = new LoggerConfiguration()
+var loggerConfig = new LoggerConfiguration()
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Console(new RenderedCompactJsonFormatter())
-    .CreateLogger();
+    .Enrich.FromLogContext();
+
+if (builder.Environment.IsDevelopment())
+{
+    loggerConfig = loggerConfig.WriteTo.Console(
+        new MessageTemplateTextFormatter(
+            "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (trace={TraceId} user={Username}){NewLine}{Exception}"));
+}
+else
+{
+    loggerConfig = loggerConfig.WriteTo.Console(new RenderedCompactJsonFormatter());
+}
+
+Log.Logger = loggerConfig.CreateLogger();
 
 builder.Host.UseSerilog();
 
