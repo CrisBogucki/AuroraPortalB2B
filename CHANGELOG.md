@@ -1,11 +1,19 @@
 # Changelog
 
+## v0.5.2
+
+### Chore
+- align app version with changelog
+
+### Fixes
+- trim build metadata from version
+
 ## v0.5.1
 
 ### Chore
 - sync version metadata
 
-## v0.5.1
+## v0.5.0
 
 ### Chore
 - remove access-control module
