@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
 using AuroraPortalB2B.Partners.Module.Endpoints;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -10,9 +11,6 @@ public static class WebApplicationEndpointExtensions
 {
     public static WebApplication MapHostEndpoints(this WebApplication app)
     {
-        app.MapGet("/favicon.ico", () => Results.NoContent())
-            .AllowAnonymous();
-
         app.MapHealthChecks("/hc", new HealthCheckOptions
         {
             Predicate = check => check.Tags.Contains("live"),
@@ -24,6 +22,27 @@ public static class WebApplicationEndpointExtensions
             Predicate = check => check.Tags.Contains("ready"),
             ResponseWriter = WriteReadinessResponseAsync
         }).AllowAnonymous();
+
+        app.MapGet("/version", (IApiVersionDescriptionProvider provider, IHostEnvironment env) =>
+            {
+                var appVersion = ResolveChangelogVersion(env);
+
+                var apiVersions = provider.ApiVersionDescriptions
+                    .Select(description => new
+                    {
+                        version = description.ApiVersion.ToString(),
+                        group = description.GroupName,
+                        isDeprecated = description.IsDeprecated
+                    })
+                    .ToArray();
+
+                return Results.Ok(new
+                {
+                    appVersion,
+                    apiVersions
+                });
+            })
+            .AllowAnonymous();
 
         var apiVersionSet = app.NewApiVersionSet()
             .HasApiVersion(new ApiVersion(1, 0))
@@ -83,5 +102,57 @@ public static class WebApplicationEndpointExtensions
         writer.Flush();
 
         return Task.CompletedTask;
+    }
+
+    private static string ResolveChangelogVersion(IHostEnvironment env)
+    {
+        var changelogPath = FindChangelogPath(env.ContentRootPath);
+        if (changelogPath is null)
+        {
+            return "unknown";
+        }
+
+        foreach (var line in File.ReadLines(changelogPath))
+        {
+            if (!line.StartsWith("## ", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var header = line[3..].Trim();
+            if (string.IsNullOrWhiteSpace(header))
+            {
+                continue;
+            }
+
+            if (header.Equals("LATEST", StringComparison.OrdinalIgnoreCase))
+            {
+                return "LATEST";
+            }
+
+            if (header.StartsWith("v", StringComparison.OrdinalIgnoreCase))
+            {
+                return header;
+            }
+        }
+
+        return "unknown";
+    }
+
+    private static string? FindChangelogPath(string contentRoot)
+    {
+        var directory = new DirectoryInfo(contentRoot);
+        while (directory is not null)
+        {
+            var candidate = Path.Combine(directory.FullName, "CHANGELOG.md");
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+
+            directory = directory.Parent;
+        }
+
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 using AuroraPortalB2B.Core.Mediator;
 using AuroraPortalB2B.Partners.App.Common;
 using AuroraPortalB2B.Partners.App.Abstractions.Repositories;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using AuroraPortalB2B.Partners.Domain.Aggregates;
 using AuroraPortalB2B.Partners.Domain.ValueObjects;
 
@@ -8,11 +9,17 @@ namespace AuroraPortalB2B.Partners.App.Commands;
 
 public sealed class CreatePartnerCommandHandler(
     IPartnerRepository partnerRepository,
-    IUnitOfWork unitOfWork)
+    IUnitOfWork unitOfWork,
+    ITenantContext tenantContext)
     : IRequestHandler<CreatePartnerCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreatePartnerCommand command, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(tenantContext.TenantId))
+        {
+            return Result<Guid>.Fail("tenant.missing", "Tenant id is required.");
+        }
+
         Nip nip;
         try
         {
@@ -66,6 +73,7 @@ public sealed class CreatePartnerCommandHandler(
         {
             partner = new Partner(
                 Guid.NewGuid(),
+                tenantContext.TenantId,
                 command.Name,
                 nip,
                 regon,

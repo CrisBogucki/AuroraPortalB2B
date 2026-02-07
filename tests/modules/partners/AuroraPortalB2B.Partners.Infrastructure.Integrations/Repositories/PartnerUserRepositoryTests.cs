@@ -19,9 +19,9 @@ public sealed class PartnerUserRepositoryTests
         var otherPartnerId = Guid.NewGuid();
 
         dbContext.PartnerUsers.AddRange(
-            new PartnerUser(Guid.NewGuid(), partnerId, "kc-user-1", new Email("a@acme.com"), "A", "One"),
-            new PartnerUser(Guid.NewGuid(), partnerId, "kc-user-2", new Email("b@acme.com"), "B", "Two"),
-            new PartnerUser(Guid.NewGuid(), otherPartnerId, "kc-user-3", new Email("c@acme.com"), "C", "Three"));
+            new PartnerUser(Guid.NewGuid(), "tenant-1", partnerId, "kc-user-1", new Email("a@acme.com"), "A", "One"),
+            new PartnerUser(Guid.NewGuid(), "tenant-1", partnerId, "kc-user-2", new Email("b@acme.com"), "B", "Two"),
+            new PartnerUser(Guid.NewGuid(), "tenant-1", otherPartnerId, "kc-user-3", new Email("c@acme.com"), "C", "Three"));
 
         await dbContext.SaveChangesAsync();
 

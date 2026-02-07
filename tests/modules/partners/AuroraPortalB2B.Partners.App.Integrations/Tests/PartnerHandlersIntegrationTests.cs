@@ -3,6 +3,7 @@ using AuroraPortalB2B.Partners.App.Queries;
 using AuroraPortalB2B.Partners.App.Integrations.Helper;
 using AuroraPortalB2B.Partners.Domain.Aggregates;
 using AuroraPortalB2B.Partners.Domain.ValueObjects;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using AuroraPortalB2B.Partners.Infrastructure.Repositories;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ public sealed class PartnerHandlersIntegrationTests
         await using var dbContext = DbContextFactory.Create(nameof(CreatePartner_ShouldPersistPartner));
         var repo = new PartnerRepository(dbContext);
         var uow = new EfUnitOfWork(dbContext);
-        var handler = new CreatePartnerCommandHandler(repo, uow);
+        var handler = new CreatePartnerCommandHandler(repo, uow, new TestTenantContext());
 
         // act
         var result = await handler.Handle(new CreatePartnerCommand(
@@ -44,8 +45,8 @@ public sealed class PartnerHandlersIntegrationTests
         // arrange
         await using var dbContext = DbContextFactory.Create(nameof(ListPartners_ShouldReturnOrderedItems));
         dbContext.Partners.AddRange(
-            new Partner(Guid.NewGuid(), "Beta", new Nip("1111111111")),
-            new Partner(Guid.NewGuid(), "Alpha", new Nip("1234563218")));
+            new Partner(Guid.NewGuid(), "tenant-1", "Beta", new Nip("1111111111")),
+            new Partner(Guid.NewGuid(), "tenant-1", "Alpha", new Nip("1234563218")));
         await dbContext.SaveChangesAsync();
 
         var repo = new PartnerRepository(dbContext);
@@ -65,7 +66,7 @@ public sealed class PartnerHandlersIntegrationTests
     {
         // arrange
         await using var dbContext = DbContextFactory.Create(nameof(CreatePartnerUser_ShouldPersistUserForPartner));
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
         dbContext.Partners.Add(partner);
         await dbContext.SaveChangesAsync();
 
@@ -87,5 +88,10 @@ public sealed class PartnerHandlersIntegrationTests
         var users = await dbContext.PartnerUsers.Where(u => u.PartnerId == partner.Id).ToListAsync();
         users.Should().HaveCount(1);
         users[0].Email.Value.Should().Be("user@acme.com");
+    }
+
+    private sealed class TestTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "tenant-1";
     }
 }

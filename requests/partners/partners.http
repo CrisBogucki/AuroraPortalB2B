@@ -2,7 +2,9 @@
 @apiVersion = v1
 @token = {{kcAccessToken}}
 
-### List partners
+# NOTE: API requires `tenant_id` claim in the access token.
+
+### List partnersr
 GET {{baseUrl}}/api/{{apiVersion}}/partners
 Authorization: Bearer {{token}}
 Accept: application/json
@@ -75,6 +77,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
+  "keycloakUserId": "00000000-0000-0000-0000-000000000000",
   "email": "user@acme.com",
   "firstName": "Jan",
   "lastName": "Nowak",

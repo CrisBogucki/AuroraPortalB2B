@@ -42,7 +42,7 @@ public sealed class CreatePartnerUserCommandHandlerTests
         var partnerRepo = new Mock<IPartnerRepository>();
         var userRepo = new Mock<IPartnerUserRepository>();
         var uow = new Mock<IUnitOfWork>();
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
 
         partnerRepo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(partner);

@@ -1,4 +1,5 @@
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using AuroraPortalB2B.Partners.Infrastructure.Repositories;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ public sealed class EfUnitOfWorkTests
             .UseInMemoryDatabase(nameof(SaveChangesAsync_ShouldReturnAffectedRows))
             .Options;
 
-        await using var dbContext = new PartnersDbContext(options);
+        await using var dbContext = new PartnersDbContext(options, new TestTenantContext());
         var unitOfWork = new EfUnitOfWork(dbContext);
 
         // act
@@ -23,5 +24,10 @@ public sealed class EfUnitOfWorkTests
 
         // assert
         result.Should().BeGreaterOrEqualTo(0);
+    }
+
+    private sealed class TestTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "tenant-1";
     }
 }

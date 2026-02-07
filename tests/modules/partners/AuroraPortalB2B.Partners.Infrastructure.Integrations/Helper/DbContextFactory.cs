@@ -1,4 +1,5 @@
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuroraPortalB2B.Partners.Infrastructure.Integrations.Helper;
@@ -11,6 +12,11 @@ public static class DbContextFactory
             .UseInMemoryDatabase(databaseName)
             .Options;
 
-        return new PartnersDbContext(options);
+        return new PartnersDbContext(options, new TestTenantContext());
+    }
+
+    private sealed class TestTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "tenant-1";
     }
 }

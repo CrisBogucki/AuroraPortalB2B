@@ -10,10 +10,14 @@ public sealed class Partner
     {
         Name = string.Empty;
         Nip = null!;
+        TenantId = string.Empty;
     }
 
-    public Partner(Guid id, string name, Nip nip, Regon? regon = null, Address? address = null, string? phone = null, string? notes = null)
+    public Partner(Guid id, string tenantId, string name, Nip nip, Regon? regon = null, Address? address = null, string? phone = null, string? notes = null)
     {
+        TenantId = string.IsNullOrWhiteSpace(tenantId)
+            ? throw new ArgumentException("Tenant id is required.", nameof(tenantId))
+            : tenantId.Trim();
         Id = id == Guid.Empty ? Guid.NewGuid() : id;
         Name = string.IsNullOrWhiteSpace(name)
             ? throw new ArgumentException("Partner name is required.", nameof(name))
@@ -28,6 +32,7 @@ public sealed class Partner
     }
 
     public Guid Id { get; private set; }
+    public string TenantId { get; private set; }
     public string Name { get; private set; }
     public Nip Nip { get; private set; }
     public Regon? Regon { get; private set; }
@@ -62,7 +67,7 @@ public sealed class Partner
 
     public PartnerUser AddUser(Guid id, string keycloakUserId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
-        var user = new PartnerUser(id, Id, keycloakUserId, email, firstName, lastName, phone, notes);
+        var user = new PartnerUser(id, TenantId, Id, keycloakUserId, email, firstName, lastName, phone, notes);
         _users.Add(user);
         return user;
     }

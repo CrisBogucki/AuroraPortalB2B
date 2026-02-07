@@ -1,5 +1,7 @@
 using Asp.Versioning.ApiExplorer;
 using AuroraPortalB2B.Partners.Module.ApplicationBuilder;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
+using AuroraPortalB2B.Host.Configuration.Tenancy;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using Serilog.Context;
@@ -11,6 +13,7 @@ namespace AuroraPortalB2B.Host.Configuration.Pipeline;
 public static class WebApplicationPipelineExtensions
 {
     private const string CorrelationIdHeader = "X-Correlation-Id";
+    private const string TenantIdClaim = "tenant_id";
 
     public static WebApplication UseHostPipeline(this WebApplication app)
     {
@@ -87,6 +90,27 @@ public static class WebApplicationPipelineExtensions
             };
         });
         app.UseAuthentication();
+        app.Use(async (context, next) =>
+        {
+            if (context.User.Identity?.IsAuthenticated == true)
+            {
+                var tenantId = context.User.FindFirst(TenantIdClaim)?.Value;
+                if (string.IsNullOrWhiteSpace(tenantId))
+                {
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    await context.Response.WriteAsync("tenant_id claim is required.");
+                    return;
+                }
+
+                var tenantContext = context.RequestServices.GetRequiredService<TenantContext>();
+                tenantContext.SetTenantId(tenantId);
+                using var tenantProperty = LogContext.PushProperty("TenantId", tenantId);
+                await next();
+                return;
+            }
+
+            await next();
+        });
         app.Use((context, next) =>
         {
             using var username = LogContext.PushProperty("Username", ResolveUsername(context));

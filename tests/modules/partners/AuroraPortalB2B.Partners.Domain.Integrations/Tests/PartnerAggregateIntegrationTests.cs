@@ -10,7 +10,7 @@ public sealed class PartnerAggregateIntegrationTests
     public void AddUser_ShouldAttachUserToPartner()
     {
         // arrange
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
         var email = new Email("user@acme.com");
 
         // act
@@ -29,7 +29,7 @@ public sealed class PartnerAggregateIntegrationTests
         var address = new Address("PL", "Krakow", "Main", "30-001");
 
         // act
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"), null, address);
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"), null, address);
 
         // assert
         partner.Address.Should().NotBeNull();

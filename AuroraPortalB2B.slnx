@@ -21,6 +21,8 @@
   <Folder Name="/requests/">
     <File Path="requests/keycloak-token.http" />
     <File Path="requests/keycloak-admin-reset.http" />
+  </Folder>
+  <Folder Name="/requests/partners/">
     <File Path="requests\partners\partners.http" />
   </Folder>
   <Folder Name="/scripts/">

@@ -12,6 +12,11 @@ public sealed class PartnerUserConfiguration : IEntityTypeConfiguration<PartnerU
 
         builder.HasKey(user => user.Id);
 
+        builder.Property(user => user.TenantId)
+            .HasColumnName("tenant_id")
+            .HasMaxLength(100)
+            .IsRequired();
+
         builder.Property(user => user.PartnerId)
             .IsRequired();
 
@@ -22,6 +27,8 @@ public sealed class PartnerUserConfiguration : IEntityTypeConfiguration<PartnerU
 
         builder.HasIndex(user => user.KeycloakUserId)
             .IsUnique();
+
+        builder.HasIndex(user => user.TenantId);
 
         builder.Property(user => user.FirstName)
             .HasMaxLength(100)

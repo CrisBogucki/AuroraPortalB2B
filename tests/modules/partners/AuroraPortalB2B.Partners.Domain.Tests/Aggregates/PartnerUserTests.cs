@@ -10,7 +10,7 @@ public sealed class PartnerUserTests
     public void Rename_ShouldUpdateNames()
     {
         // arrange
-        var user = new PartnerUser(Guid.NewGuid(), Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");
+        var user = new PartnerUser(Guid.NewGuid(), "tenant-1", Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");
 
         // act
         user.Rename("Anna", "Nowak");
@@ -24,7 +24,7 @@ public sealed class PartnerUserTests
     public void ChangeEmail_ShouldUpdateEmail()
     {
         // arrange
-        var user = new PartnerUser(Guid.NewGuid(), Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");
+        var user = new PartnerUser(Guid.NewGuid(), "tenant-1", Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");
 
         // act
         user.ChangeEmail(new Email("new@acme.com"));

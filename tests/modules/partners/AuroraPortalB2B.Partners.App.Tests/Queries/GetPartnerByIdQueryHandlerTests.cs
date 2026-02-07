@@ -33,7 +33,7 @@ public sealed class GetPartnerByIdQueryHandlerTests
     {
         // arrange
         var repo = new Mock<IPartnerRepository>();
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
         repo.Setup(r => r.GetByIdAsync(partner.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(partner);
 

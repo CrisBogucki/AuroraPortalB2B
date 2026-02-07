@@ -16,6 +16,7 @@ using AuroraPortalB2B.Partners.Endpoints.Validators;
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
 using AuroraPortalB2B.Partners.Infrastructure.Repositories;
 using AuroraPortalB2B.Core.Mediator.Authorization;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -335,6 +336,7 @@ public sealed class PartnersEndpointsIntegrationTests
         builder.WebHost.UseTestServer();
         builder.Services.AddAuthentication("Test")
             .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
+        builder.Services.AddScoped<ITenantContext>(_ => new TestTenantContext());
         builder.Services.AddAuthorizationBuilder()
             .AddPolicy("AdminOnly", policy => policy.RequireRole("admin"))
             .AddPolicy(PermissionPolicies.PartnersRead.Name, policy =>
@@ -401,5 +403,10 @@ public sealed class PartnersEndpointsIntegrationTests
         api.MapPartnerUsersEndpoints();
 
         return app;
+    }
+
+    private sealed class TestTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "tenant-1";
     }
 }

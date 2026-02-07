@@ -1,6 +1,7 @@
 using AuroraPortalB2B.Core.Mediator;
 using AuroraPortalB2B.Partners.App.Commands;
 using AuroraPortalB2B.Partners.App.Queries;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
 using AuroraPortalB2B.Partners.Module.DependencyInjection;
 using FluentAssertions;
@@ -17,6 +18,7 @@ public sealed class PartnersModuleIntegrationTests
         // arrange
         var services = new ServiceCollection();
         services.AddLogging();
+        services.AddScoped<ITenantContext>(_ => new TestTenantContext());
         services.AddPartnersModule("Host=localhost;Port=5432;Database=aurora_partners;Username=postgres;Password=postgres");
 
         var dbName = nameof(Send_ShouldPersistAndReadPartnerUsingModuleRegistrations);
@@ -68,5 +70,10 @@ public sealed class PartnersModuleIntegrationTests
         listResult.IsSuccess.Should().BeTrue();
         listResult.Value.Should().ContainSingle();
         listResult.Value![0].Id.Should().Be(createResult.Value);
+    }
+
+    private sealed class TestTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "tenant-1";
     }
 }

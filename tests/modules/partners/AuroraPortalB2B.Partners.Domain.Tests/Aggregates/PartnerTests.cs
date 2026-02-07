@@ -13,7 +13,7 @@ public sealed class PartnerTests
         var id = Guid.NewGuid();
 
         // act
-        var partner = new Partner(id, "Acme", new Nip("1234563218"));
+        var partner = new Partner(id, "tenant-1", "Acme", new Nip("1234563218"));
 
         // assert
         partner.Status.Should().Be(PartnerStatus.Active);
@@ -24,7 +24,7 @@ public sealed class PartnerTests
     public void Rename_ShouldUpdateName()
     {
         // arrange
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
 
         // act
         partner.Rename("New Name");
@@ -37,7 +37,7 @@ public sealed class PartnerTests
     public void AddUser_ShouldAttachUserToPartner()
     {
         // arrange
-        var partner = new Partner(Guid.NewGuid(), "Acme", new Nip("1234563218"));
+        var partner = new Partner(Guid.NewGuid(), "tenant-1", "Acme", new Nip("1234563218"));
 
         // act
         var user = partner.AddUser(Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Kowalski");

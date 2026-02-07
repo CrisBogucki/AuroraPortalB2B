@@ -1,4 +1,5 @@
 using AuroraPortalB2B.Partners.App.Abstractions.Repositories;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using AuroraPortalB2B.Partners.App.Commands;
 using AuroraPortalB2B.Partners.App.Common;
 using AuroraPortalB2B.Partners.Domain.Aggregates;
@@ -19,7 +20,10 @@ public sealed class CreatePartnerCommandHandlerTests
         repo.Setup(r => r.ExistsByNipAsync(It.IsAny<Nip>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
-        var handler = new CreatePartnerCommandHandler(repo.Object, uow.Object);
+        var tenant = new Mock<ITenantContext>();
+        tenant.SetupGet(t => t.TenantId).Returns("tenant-1");
+
+        var handler = new CreatePartnerCommandHandler(repo.Object, uow.Object, tenant.Object);
 
         // act
         var result = await handler.Handle(new CreatePartnerCommand(
@@ -45,7 +49,10 @@ public sealed class CreatePartnerCommandHandlerTests
         repo.Setup(r => r.ExistsByNipAsync(It.IsAny<Nip>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
 
-        var handler = new CreatePartnerCommandHandler(repo.Object, uow.Object);
+        var tenant = new Mock<ITenantContext>();
+        tenant.SetupGet(t => t.TenantId).Returns("tenant-1");
+
+        var handler = new CreatePartnerCommandHandler(repo.Object, uow.Object, tenant.Object);
 
         // act
         var result = await handler.Handle(new CreatePartnerCommand(

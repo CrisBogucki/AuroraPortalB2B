@@ -16,9 +16,9 @@ public sealed class PartnerRepositoryTests
         var repo = new PartnerRepository(dbContext);
 
         dbContext.Partners.AddRange(
-            new Partner(Guid.NewGuid(), "Beta", new Nip("1111111111")),
-            new Partner(Guid.NewGuid(), "Alpha", new Nip("1234563218")),
-            new Partner(Guid.NewGuid(), "Gamma", new Nip("2222222222")));
+            new Partner(Guid.NewGuid(), "tenant-1", "Beta", new Nip("1111111111")),
+            new Partner(Guid.NewGuid(), "tenant-1", "Alpha", new Nip("1234563218")),
+            new Partner(Guid.NewGuid(), "tenant-1", "Gamma", new Nip("2222222222")));
         await dbContext.SaveChangesAsync();
 
         // act

@@ -1,4 +1,5 @@
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
+using AuroraPortalB2B.Partners.App.Abstractions.Tenancy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -15,6 +16,11 @@ public sealed class PartnersDbContextFactory : IDesignTimeDbContextFactory<Partn
             .UseNpgsql(connectionString)
             .Options;
 
-        return new PartnersDbContext(options);
+        return new PartnersDbContext(options, new DesignTimeTenantContext());
+    }
+
+    private sealed class DesignTimeTenantContext : ITenantContext
+    {
+        public string TenantId { get; } = "design-time";
     }
 }

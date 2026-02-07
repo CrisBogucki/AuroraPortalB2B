@@ -40,7 +40,7 @@ public sealed class UpdatePartnerUserCommandHandlerTests
         // arrange
         var repo = new Mock<IPartnerUserRepository>();
         var uow = new Mock<IUnitOfWork>();
-        var user = new PartnerUser(Guid.NewGuid(), Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Nowak");
+        var user = new PartnerUser(Guid.NewGuid(), "tenant-1", Guid.NewGuid(), "kc-user-1", new Email("user@acme.com"), "Jan", "Nowak");
 
         repo.Setup(r => r.GetByIdAsync(user.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
@@ -67,7 +67,7 @@ public sealed class UpdatePartnerUserCommandHandlerTests
         var repo = new Mock<IPartnerUserRepository>();
         var uow = new Mock<IUnitOfWork>();
         var partnerId = Guid.NewGuid();
-        var user = new PartnerUser(Guid.NewGuid(), partnerId, "kc-user-1", new Email("user@acme.com"), "Jan", "Nowak");
+        var user = new PartnerUser(Guid.NewGuid(), "tenant-1", partnerId, "kc-user-1", new Email("user@acme.com"), "Jan", "Nowak");
 
         repo.Setup(r => r.GetByIdAsync(user.Id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);

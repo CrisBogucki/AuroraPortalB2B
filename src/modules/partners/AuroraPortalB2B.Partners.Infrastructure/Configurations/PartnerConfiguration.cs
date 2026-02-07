@@ -13,6 +13,11 @@ public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
 
         builder.HasKey(partner => partner.Id);
 
+        builder.Property(partner => partner.TenantId)
+            .HasColumnName("tenant_id")
+            .HasMaxLength(100)
+            .IsRequired();
+
         builder.Property(partner => partner.Name)
             .HasMaxLength(200)
             .IsRequired();
@@ -42,6 +47,8 @@ public sealed class PartnerConfiguration : IEntityTypeConfiguration<Partner>
                 .IsRequired();
             owned.HasIndex(nip => nip.Value).IsUnique();
         });
+
+        builder.HasIndex(partner => partner.TenantId);
 
         builder.OwnsOne(partner => partner.Regon, owned =>
         {

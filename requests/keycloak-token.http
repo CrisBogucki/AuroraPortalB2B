@@ -4,6 +4,9 @@
 @clientId = aurora-b2b
 @username = test-user
 @password = test-password
+@tenantId = tenant-1
+
+# NOTE: API requires `tenant_id` claim in the access token (e.g. tenant-1).
 
 ### Get access token (password grant)
 # @name tokenRequest

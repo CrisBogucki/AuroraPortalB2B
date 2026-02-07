@@ -14,8 +14,7 @@ public sealed class PartnersDbContextIntegrationTests
         // arrange
         await using var dbContext = DbContextFactory.Create(nameof(SaveChanges_ShouldPersistOwnedValues));
         var partner = new Partner(
-            Guid.NewGuid(),
-            "Acme",
+            Guid.NewGuid(), "tenant-1", "Acme",
             new Nip("1234563218"),
             new Regon("852163975"),
             new Address("PL", "Krakow", "Main", "30-001"));

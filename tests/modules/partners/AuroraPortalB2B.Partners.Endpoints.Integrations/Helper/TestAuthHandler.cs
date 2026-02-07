@@ -35,6 +35,7 @@ public sealed class TestAuthHandler(
         identity.AddClaim(new Claim("permissions", "partners.write"));
         identity.AddClaim(new Claim("permissions", "partnerUsers.read"));
         identity.AddClaim(new Claim("permissions", "partnerUsers.write"));
+        identity.AddClaim(new Claim("tenant_id", "tenant-1"));
 
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, "Test");

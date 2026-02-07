@@ -10,15 +10,19 @@ public sealed class PartnerUser
         KeycloakUserId = string.Empty;
         FirstName = string.Empty;
         LastName = string.Empty;
+        TenantId = string.Empty;
     }
 
-    public PartnerUser(Guid id, Guid partnerId, string keycloakUserId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
+    public PartnerUser(Guid id, string tenantId, Guid partnerId, string keycloakUserId, Email email, string firstName, string lastName, string? phone = null, string? notes = null)
     {
         if (partnerId == Guid.Empty)
         {
             throw new ArgumentException("Partner id is required.", nameof(partnerId));
         }
 
+        TenantId = string.IsNullOrWhiteSpace(tenantId)
+            ? throw new ArgumentException("Tenant id is required.", nameof(tenantId))
+            : tenantId.Trim();
         Id = id == Guid.Empty ? Guid.NewGuid() : id;
         PartnerId = partnerId;
         KeycloakUserId = string.IsNullOrWhiteSpace(keycloakUserId)
@@ -38,6 +42,7 @@ public sealed class PartnerUser
     }
 
     public Guid Id { get; private set; }
+    public string TenantId { get; private set; }
     public Guid PartnerId { get; private set; }
     public string KeycloakUserId { get; private set; }
     public Email Email { get; private set; }
