@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.5.3
+
+### Chore
+- rename version endpoint tag
+
 ## v0.5.2
 
 ### Chore
