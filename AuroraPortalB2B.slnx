@@ -22,7 +22,6 @@
     <File Path="requests/keycloak-token.http" />
     <File Path="requests/keycloak-admin-reset.http" />
     <File Path="requests\partners\partners.http" />
-    <File Path="requests\access-control\access-control.http" />
   </Folder>
   <Folder Name="/scripts/">
     <File Path="scripts/test.sh" />
@@ -37,13 +36,6 @@
     <Project Path="src/core/AuroraPortalB2B.Core.Mediator/AuroraPortalB2B.Core.Mediator.csproj" />
   </Folder>
   <Folder Name="/src/modules/" />
-  <Folder Name="/src/modules/access-control/">
-    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.App/AuroraPortalB2B.AccessControl.App.csproj" />
-    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Domain/AuroraPortalB2B.AccessControl.Domain.csproj" />
-    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Endpoints/AuroraPortalB2B.AccessControl.Endpoints.csproj" />
-    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Infrastructure/AuroraPortalB2B.AccessControl.Infrastructure.csproj" />
-    <Project Path="src/modules/access-control/AuroraPortalB2B.AccessControl.Module/AuroraPortalB2B.AccessControl.Module.csproj" />
-  </Folder>
   <Folder Name="/src/modules/partners/">
     <Project Path="src/modules/partners/AuroraPortalB2B.Partners.App/AuroraPortalB2B.Partners.App.csproj" />
     <Project Path="src/modules/partners/AuroraPortalB2B.Partners.Domain/AuroraPortalB2B.Partners.Domain.csproj" />
