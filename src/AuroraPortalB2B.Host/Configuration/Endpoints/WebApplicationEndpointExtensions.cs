@@ -3,6 +3,7 @@ using Asp.Versioning.ApiExplorer;
 using AuroraPortalB2B.Partners.Module.Endpoints;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System.Reflection;
 using System.Text.Json;
 
 namespace AuroraPortalB2B.Host.Configuration.Endpoints;
@@ -23,9 +24,13 @@ public static class WebApplicationEndpointExtensions
             ResponseWriter = WriteReadinessResponseAsync
         }).AllowAnonymous();
 
-        app.MapGet("/version", (IApiVersionDescriptionProvider provider, IHostEnvironment env) =>
+        app.MapGet("/version", (IApiVersionDescriptionProvider provider) =>
             {
-                var appVersion = ResolveAppVersion(env);
+                var assembly = typeof(Program).Assembly;
+                var informational = assembly
+                    .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                    ?.InformationalVersion;
+                var appVersion = informational ?? assembly.GetName().Version?.ToString() ?? "unknown";
 
                 var apiVersions = provider.ApiVersionDescriptions
                     .Select(description => new
@@ -104,87 +109,4 @@ public static class WebApplicationEndpointExtensions
         return Task.CompletedTask;
     }
 
-    private static string ResolveAppVersion(IHostEnvironment env)
-    {
-        var versionPath = FindVersionPath(env.ContentRootPath);
-        if (versionPath is not null)
-        {
-            var version = File.ReadAllText(versionPath).Trim();
-            if (!string.IsNullOrWhiteSpace(version))
-            {
-                return version.TrimStart('v', 'V');
-            }
-        }
-
-        return ResolveChangelogVersion(env);
-    }
-
-    private static string ResolveChangelogVersion(IHostEnvironment env)
-    {
-        var changelogPath = FindChangelogPath(env.ContentRootPath);
-        if (changelogPath is null)
-        {
-            return "unknown";
-        }
-
-        foreach (var line in File.ReadLines(changelogPath))
-        {
-            if (!line.StartsWith("## ", StringComparison.Ordinal))
-            {
-                continue;
-            }
-
-            var header = line[3..].Trim();
-            if (string.IsNullOrWhiteSpace(header))
-            {
-                continue;
-            }
-
-            if (header.Equals("LATEST", StringComparison.OrdinalIgnoreCase))
-            {
-                return "LATEST";
-            }
-
-            if (header.StartsWith("v", StringComparison.OrdinalIgnoreCase))
-            {
-                return header;
-            }
-        }
-
-        return "unknown";
-    }
-
-    private static string? FindVersionPath(string contentRoot)
-    {
-        var directory = new DirectoryInfo(contentRoot);
-        while (directory is not null)
-        {
-            var candidate = Path.Combine(directory.FullName, "VERSION");
-            if (File.Exists(candidate))
-            {
-                return candidate;
-            }
-
-            directory = directory.Parent;
-        }
-
-        return null;
-    }
-
-    private static string? FindChangelogPath(string contentRoot)
-    {
-        var directory = new DirectoryInfo(contentRoot);
-        while (directory is not null)
-        {
-            var candidate = Path.Combine(directory.FullName, "CHANGELOG.md");
-            if (File.Exists(candidate))
-            {
-                return candidate;
-            }
-
-            directory = directory.Parent;
-        }
-
-        return null;
-    }
 }

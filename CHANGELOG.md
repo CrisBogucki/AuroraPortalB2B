@@ -5,7 +5,7 @@
 ### Chore
 - sync version metadata
 
-## v0.5.0
+## v0.5.1
 
 ### Chore
 - remove access-control module
