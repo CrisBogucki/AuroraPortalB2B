@@ -2,7 +2,7 @@ using AuroraPortalB2B.Host.Configuration;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
-using Serilog.Formatting.Display;
+using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +19,9 @@ var loggerConfig = new LoggerConfiguration()
 if (builder.Environment.IsDevelopment())
 {
     loggerConfig = loggerConfig.WriteTo.Console(
-        new MessageTemplateTextFormatter(
-            "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (trace={TraceId} user={Username}){NewLine}{Exception}"));
+        outputTemplate:
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (trace={TraceId} user={Username}){NewLine}{Exception}",
+        theme: AnsiConsoleTheme.Code);
 }
 else
 {
