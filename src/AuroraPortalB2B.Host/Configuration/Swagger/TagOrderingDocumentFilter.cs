@@ -5,7 +5,7 @@ namespace AuroraPortalB2B.Host.Configuration.Swagger;
 
 public sealed class TagOrderingDocumentFilter : IDocumentFilter
 {
-    private static readonly string[] PreferredOrder = ["Partners", "Partner Users"];
+    private static readonly string[] PreferredOrder = ["System", "Partners", "Partner Users"];
 
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {

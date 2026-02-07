@@ -48,7 +48,8 @@ public static class WebApplicationEndpointExtensions
                     apiVersions
                 });
             })
-            .AllowAnonymous();
+            .AllowAnonymous()
+            .WithTags("System");
 
         var apiVersionSet = app.NewApiVersionSet()
             .HasApiVersion(new ApiVersion(1, 0))
