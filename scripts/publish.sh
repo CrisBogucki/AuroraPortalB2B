@@ -20,9 +20,13 @@ fi
 normalized_version="${bumped_version#v}"
 
 git-cliff -c .git-cliff.toml -o CHANGELOG.md
+if grep -q "^## LATEST$" CHANGELOG.md; then
+  sed -i '' "s/^## LATEST$/## v${normalized_version}/" CHANGELOG.md
+fi
+printf "%s\n" "$normalized_version" > VERSION
 
-if ! git diff --quiet -- CHANGELOG.md; then
-  git add CHANGELOG.md
+if ! git diff --quiet -- CHANGELOG.md VERSION; then
+  git add CHANGELOG.md VERSION
   git commit -m "chore: update changelog"
 fi
 

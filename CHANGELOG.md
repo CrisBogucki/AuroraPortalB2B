@@ -1,6 +1,6 @@
 # Changelog
 
-## LATEST
+## v0.5.0
 
 ### Chore
 - remove access-control module

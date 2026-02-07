@@ -25,7 +25,7 @@ public static class WebApplicationEndpointExtensions
 
         app.MapGet("/version", (IApiVersionDescriptionProvider provider, IHostEnvironment env) =>
             {
-                var appVersion = ResolveChangelogVersion(env);
+                var appVersion = ResolveAppVersion(env);
 
                 var apiVersions = provider.ApiVersionDescriptions
                     .Select(description => new
@@ -104,6 +104,21 @@ public static class WebApplicationEndpointExtensions
         return Task.CompletedTask;
     }
 
+    private static string ResolveAppVersion(IHostEnvironment env)
+    {
+        var versionPath = FindVersionPath(env.ContentRootPath);
+        if (versionPath is not null)
+        {
+            var version = File.ReadAllText(versionPath).Trim();
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                return version.TrimStart('v', 'V');
+            }
+        }
+
+        return ResolveChangelogVersion(env);
+    }
+
     private static string ResolveChangelogVersion(IHostEnvironment env)
     {
         var changelogPath = FindChangelogPath(env.ContentRootPath);
@@ -137,6 +152,23 @@ public static class WebApplicationEndpointExtensions
         }
 
         return "unknown";
+    }
+
+    private static string? FindVersionPath(string contentRoot)
+    {
+        var directory = new DirectoryInfo(contentRoot);
+        while (directory is not null)
+        {
+            var candidate = Path.Combine(directory.FullName, "VERSION");
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+
+            directory = directory.Parent;
+        }
+
+        return null;
     }
 
     private static string? FindChangelogPath(string contentRoot)
