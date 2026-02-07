@@ -30,7 +30,8 @@ public static class WebApplicationEndpointExtensions
                 var informational = assembly
                     .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                     ?.InformationalVersion;
-                var appVersion = informational ?? assembly.GetName().Version?.ToString() ?? "unknown";
+                var rawVersion = informational ?? assembly.GetName().Version?.ToString() ?? "unknown";
+                var appVersion = rawVersion.Split('+', 2, StringSplitOptions.RemoveEmptyEntries)[0];
 
                 var apiVersions = provider.ApiVersionDescriptions
                     .Select(description => new
