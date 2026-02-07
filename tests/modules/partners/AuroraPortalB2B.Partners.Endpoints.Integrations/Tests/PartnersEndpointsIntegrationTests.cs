@@ -15,6 +15,7 @@ using AuroraPortalB2B.Partners.Endpoints.Dtos;
 using AuroraPortalB2B.Partners.Endpoints.Validators;
 using AuroraPortalB2B.Partners.Infrastructure.Persistence;
 using AuroraPortalB2B.Partners.Infrastructure.Repositories;
+using AuroraPortalB2B.Core.Mediator.Authorization;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -336,6 +337,14 @@ public sealed class PartnersEndpointsIntegrationTests
             .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
         builder.Services.AddAuthorizationBuilder()
             .AddPolicy("AdminOnly", policy => policy.RequireRole("admin"))
+            .AddPolicy(PermissionPolicies.PartnersRead.Name, policy =>
+                policy.RequireClaim(PermissionNames.ClaimType, PermissionNames.PartnersRead))
+            .AddPolicy(PermissionPolicies.PartnersWrite.Name, policy =>
+                policy.RequireClaim(PermissionNames.ClaimType, PermissionNames.PartnersWrite))
+            .AddPolicy(PermissionPolicies.PartnerUsersRead.Name, policy =>
+                policy.RequireClaim(PermissionNames.ClaimType, PermissionNames.PartnerUsersRead))
+            .AddPolicy(PermissionPolicies.PartnerUsersWrite.Name, policy =>
+                policy.RequireClaim(PermissionNames.ClaimType, PermissionNames.PartnerUsersWrite))
             .SetFallbackPolicy(new AuthorizationPolicyBuilder()
                 .AddAuthenticationSchemes("Test")
                 .RequireAuthenticatedUser()
@@ -389,6 +398,7 @@ public sealed class PartnersEndpointsIntegrationTests
             .WithApiVersionSet(apiVersionSet);
 
         api.MapPartnersEndpoints();
+        api.MapPartnerUsersEndpoints();
 
         return app;
     }
