@@ -2,6 +2,19 @@
 
 ## LATEST
 
+### Chore
+- colorize dev logs
+- remove legacy web app extensions
+- update AuroraPortalB2B.slnx
+
+### Features
+- enrich request logs
+
+### Refactors
+- split pipeline and endpoint extensions
+
+## v0.3.0
+
 ### Features
 - switch log format by environment
 
