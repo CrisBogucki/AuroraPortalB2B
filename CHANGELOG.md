@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.5.1
+
+### Chore
+- sync version metadata
+
 ## v0.5.0
 
 ### Chore
