@@ -22,7 +22,12 @@ if (builder.Environment.IsDevelopment())
 {
     loggerConfig = loggerConfig.WriteTo.Console(
         outputTemplate:
-        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (trace={TraceId} user={Username}){NewLine}{Exception}",
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} " +
+        "(trace={TraceId} corr={CorrelationId} user={Username} " +
+        "ip={RemoteIp} ua={UserAgent} " +
+        "req={RequestMethod} {RequestScheme}://{RequestHost}{RequestPath}{RequestQuery} " +
+        "req_ct={RequestContentType} req_len={RequestContentLength} " +
+        "res_ct={ResponseContentType} res_len={ResponseContentLength}){NewLine}{Exception}",
         theme: AnsiConsoleTheme.Code);
 }
 else
