@@ -3,6 +3,15 @@
 ## LATEST
 
 ### Chore
+- add coverage script
+- update AuroraPortalB2B.slnx
+
+### Tests
+- expand unit and integration coverage
+
+## v0.4.0
+
+### Chore
 - colorize dev logs
 - remove legacy web app extensions
 - update AuroraPortalB2B.slnx
