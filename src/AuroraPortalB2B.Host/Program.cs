@@ -1,4 +1,6 @@
 using AuroraPortalB2B.Host.Configuration;
+using AuroraPortalB2B.Host.Configuration.Endpoints;
+using AuroraPortalB2B.Host.Configuration.Pipeline;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
