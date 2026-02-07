@@ -3,6 +3,14 @@
 ## LATEST
 
 ### Chore
+- remove access-control module
+
+### Features
+- add tenant support and version endpoint
+
+## v0.4.1
+
+### Chore
 - add coverage script
 - update AuroraPortalB2B.slnx
 
