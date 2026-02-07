@@ -27,6 +27,7 @@
   <Folder Name="/scripts/">
     <File Path="scripts/test.sh" />
     <File Path="scripts/changelog.sh" />
+    <File Path="scripts\publish.sh" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/AuroraPortalB2B.Host/AuroraPortalB2B.Host.csproj" />
